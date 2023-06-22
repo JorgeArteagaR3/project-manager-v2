@@ -14,7 +14,7 @@ export default function Dashboard() {
                 <Suspense
                     fallback={
                         <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10 mb-32 relative h-[400px]">
-                            {new Array(6).fill(1).map((arr: any, idx) => (
+                            {new Array(6).fill(1).map((_, idx) => (
                                 <CardSkeleton key={idx} />
                             ))}
                         </Container>

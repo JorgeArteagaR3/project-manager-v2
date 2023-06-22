@@ -19,7 +19,7 @@ export default function Checkbox({
                 onChange={(e) => {
                     updateTask(taskId, {
                         status: e.target.checked ? "COMPLETED" : "IN_PROGRESS",
-                    }).then((data) => {
+                    }).then((_) => {
                         getTasks();
                     });
                 }}

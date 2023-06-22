@@ -1,9 +1,6 @@
-import { SetStateAction, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
+import { AuthContextType } from "../types/types";
 
-export interface AuthContextType {
-    isAuthenticated: boolean;
-    setIsAuthenticated: (value: SetStateAction<boolean>) => void;
-}
 export const AuthContext = createContext<AuthContextType | undefined>(
     undefined
 );

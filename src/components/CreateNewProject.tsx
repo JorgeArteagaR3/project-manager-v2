@@ -1,13 +1,13 @@
-import Modal from "react-modal";
+import CustomModal from "./UI/CustomModal";
 import Card from "./UI/Card";
 import { FaPlusCircle } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { FormEventHandler, useContext, useState } from "react";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { Project } from "../types/types";
 import { createProject } from "../services/services";
 import { ProjectsContext } from "./ProjectsContainer";
-Modal.setAppElement("#modal");
+import SpinnerLoader from "./SpinnerLoader";
 
 const CreateNewProject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,12 +15,12 @@ const CreateNewProject = () => {
         name: "",
         description: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const projectsContext = useContext(ProjectsContext);
     if (!projectsContext) {
         throw new Error("No Projects context found");
     }
-    console.log("NEWPROJECT", newProject);
     const { setProjects } = projectsContext;
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -30,34 +30,29 @@ const CreateNewProject = () => {
     };
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+
+    const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+        if (newProject.name.length <= 8) return;
+        setIsLoading(true);
+        createProject(newProject).then((data) => {
+            setNewProject({ name: "", description: "" });
+            setProjects((prev) => [...prev, data.data]);
+            setIsLoading(false);
+            closeModal();
+        });
+    };
+
     return (
-        <Card className="h-full">
+        <Card className="h-full flex flex-col items-center justify-center">
             <p className="mb-6 text-center">Create new Project</p>
             <FaPlusCircle
                 onClick={openModal}
                 size={36}
                 className="text-center mx-auto cursor-pointer"
             />
-            <Modal
-                shouldCloseOnOverlayClick
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                className="z-50 w-2/3 md:w-[400px] bg-background rounded-xl p-8"
-                overlayClassName={
-                    "bg-[rgba(0,0,0,.7)] top-0 absolute z-50 flex w-screen h-screen items-center justify-center"
-                }
-            >
-                <form
-                    action=""
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        if (newProject.name.length <= 8) return;
-                        createProject(newProject).then((data) => {
-                            setProjects((prev) => [...prev, data.data]);
-                            closeModal();
-                        });
-                    }}
-                >
+            <CustomModal isModalOpen={isModalOpen} closeModal={closeModal}>
+                <form onSubmit={handleSubmitForm}>
                     <p className="text-xl font-bold text-center mb-6">
                         Create a new Project
                     </p>
@@ -93,7 +88,8 @@ const CreateNewProject = () => {
                         </Button>
                     </div>
                 </form>
-            </Modal>
+                {isLoading && <SpinnerLoader />}
+            </CustomModal>
         </Card>
     );
 };

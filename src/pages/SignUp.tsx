@@ -94,11 +94,7 @@ export default function SignUp() {
                     </p>
                     <Button type="submit">Sign Up</Button>
                 </form>
-                {isLoading && (
-                    <div className="bg-[#111219b8] w-full h-full absolute left-0 top-0 z-40 flex justify-center items-center">
-                        <SpinnerLoader />
-                    </div>
-                )}
+                {isLoading && <SpinnerLoader />}
             </Container>
         </div>
     );

@@ -1,31 +1,27 @@
+import { lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
-import ProjectsContainer from "../components/ProjectsContainer";
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
-import { useEffect, useState } from "react";
+import PageHeader from "../components/PageHeader";
+import Container from "../components/UI/Container";
+import CardSkeleton from "../components/CardSkeleton";
+const ProjectsContainer = lazy(() => import("../components/ProjectsContainer"));
 
 export default function Dashboard() {
-    const [user, setUser] = useState({ id: "", username: "" });
-    useEffect(() => {
-        const user = Cookies.get("user");
-        setUser(jwt_decode(user!));
-    }, []);
     return (
         <div className="flex flex-col lg:flex-row h-screen w-screen">
             <Navbar />
-            <main className="w-full">
-                <div className="py-6 flex justify-between mx-auto w-11/12">
-                    <h1 className="font-bold">Dashboard</h1>
-                    <div>
-                        <p className="flex gap-1">
-                            Hi,
-                            <span className="block first-letter:uppercase">
-                                {user.username}
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                <ProjectsContainer />
+            <main className="w-full px-6">
+                <PageHeader title="Dashboard" />
+                <Suspense
+                    fallback={
+                        <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10 mb-32 relative h-[400px]">
+                            {new Array(6).fill(1).map((arr: any, idx) => (
+                                <CardSkeleton key={idx} />
+                            ))}
+                        </Container>
+                    }
+                >
+                    <ProjectsContainer />
+                </Suspense>
             </main>
         </div>
     );

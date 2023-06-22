@@ -6,13 +6,6 @@ import { CiUser } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-    // const urls = [
-    //     { path: "/dashboard", Icon: LuLayoutDashboard, name: "Dashboard" },
-    //     { path: "/calendar", Icon: BsCalendar2Event, name: "Calendar" },
-    //     { path: "/settings", Icon: AiOutlineSetting, name: "Settings" },
-    //     { path: "/profile", Icon: CiUser, name: "Profile" },
-    // ];
-
     return (
         <nav
             className="fixed z-30 border-t border-gray-700 lg:border-t-0 lg:border-r w-full h-20 bottom-0 grid grid-cols-5 place-items-center 

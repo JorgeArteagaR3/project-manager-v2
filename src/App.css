@@ -17,3 +17,19 @@
         transform: rotate(360deg);
     }
 }
+
+@keyframes loadingskeleton {
+    0% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.1;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
+.skeleton {
+    animation: loadingskeleton infinite 2.5s;
+    background-color: #696969;
+}

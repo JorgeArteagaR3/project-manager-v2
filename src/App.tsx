@@ -3,19 +3,19 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Signin from "./pages/Signin";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SignUp from "./pages/SignUp";
 import Cookies from "js-cookie";
 import { AuthContext } from "./hooks/useAuth";
+import Project from "./pages/Project";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    useEffect(() => {
-        const user = Cookies.get("user");
-        if (user) {
-            setIsAuthenticated(true);
-        }
-    }, []);
+
+    const user = Cookies.get("user");
+    if (user && !isAuthenticated) {
+        setIsAuthenticated(true);
+    }
 
     return (
         <>
@@ -45,7 +45,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="dashboard"
+                            path="/dashboard"
                             element={
                                 isAuthenticated ? (
                                     <Dashboard />
@@ -54,6 +54,17 @@ function App() {
                                 )
                             }
                         />
+                        <Route
+                            path="/project/:id"
+                            element={
+                                isAuthenticated ? (
+                                    <Project />
+                                ) : (
+                                    <Navigate to={"/signin"} />
+                                )
+                            }
+                        />
+
                         <Route
                             path="*"
                             element={

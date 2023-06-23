@@ -1,13 +1,15 @@
-export interface AuthContextType {
-    isAuthenticated: boolean;
-    setIsAuthenticated: (value: React.SetStateAction<boolean>) => void;
-}
-
 export interface User {
     exp: number;
     iat: number;
     id: string;
     username: string;
+}
+
+export interface AuthContextType {
+    isAuthenticated: boolean;
+    setIsAuthenticated: (value: React.SetStateAction<boolean>) => void;
+    user: User | undefined;
+    setUser: (value: React.SetStateAction<User | undefined>) => void;
 }
 
 export interface TaskInterface {

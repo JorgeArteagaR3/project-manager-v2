@@ -3,25 +3,36 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Signin from "./pages/Signin";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SignUp from "./pages/SignUp";
-import Cookies from "js-cookie";
 import { AuthContext } from "./hooks/useAuth";
 import Project from "./pages/Project";
+import { User } from "./types/types";
+import jwtDecode from "jwt-decode";
+import Cookies from "js-cookie";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [user, setUser] = useState<User>();
 
-    const user = Cookies.get("user");
-    if (user && !isAuthenticated) {
-        setIsAuthenticated(true);
-    }
+    useEffect(() => {
+        const token = Cookies.get("user");
+        if (token) {
+            setIsAuthenticated(true);
+            setUser(jwtDecode(token));
+        }
+    }, [isAuthenticated]);
 
     return (
         <>
             <BrowserRouter>
                 <AuthContext.Provider
-                    value={{ isAuthenticated, setIsAuthenticated }}
+                    value={{
+                        isAuthenticated,
+                        setIsAuthenticated,
+                        user,
+                        setUser,
+                    }}
                 >
                     <Routes>
                         <Route
@@ -57,7 +68,7 @@ function App() {
                         <Route
                             path="/project/:id"
                             element={
-                                isAuthenticated ? (
+                                isAuthenticated && user !== undefined ? (
                                     <Project />
                                 ) : (
                                     <Navigate to={"/signin"} />

@@ -6,6 +6,7 @@ import Container from "./UI/Container";
 import CreateNewProject from "./CreateNewProject";
 import { createContext } from "react";
 import CardSkeleton from "./CardSkeleton";
+
 interface ProjectsContextType {
     projects: Project[];
     setProjects: (value: React.SetStateAction<Project[]>) => void;
@@ -21,8 +22,6 @@ export default function ProjectsContainer() {
     useEffect(() => {
         getAllProjects();
     }, []);
-
-    console.log(projects);
 
     const getAllProjects = async () => {
         setIsLoading(true);

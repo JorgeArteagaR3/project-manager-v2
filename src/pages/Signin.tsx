@@ -6,23 +6,27 @@ import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { useAuth } from "../hooks/useAuth";
 import Button from "../components/UI/Button";
+import jwtDecode from "jwt-decode";
+import { User } from "../types/types";
 
 export default function Signin() {
-    const [user, setUser] = useState({ username: "", password: "" });
+    const [userInput, setUserInput] = useState({ username: "", password: "" });
     const [isLoading, setIsLoading] = useState(false);
-    const { setIsAuthenticated } = useAuth();
+    const { setIsAuthenticated, setUser } = useAuth();
+
     const url = "https://todo-backend-mf0a.onrender.com/";
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+
     const login = async () => {
         try {
-            if (user.username && user.password) {
+            if (userInput.username && userInput.password) {
                 setIsLoading(true);
                 const res = await fetch(`${url}signin`, {
                     method: "POST",
-                    body: JSON.stringify(user),
+                    body: JSON.stringify(userInput),
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -32,8 +36,10 @@ export default function Signin() {
                     throw new Error("API ERROR");
                 }
                 const data = await res.json();
+                Cookies.set("user", data.token);
                 setIsAuthenticated(true);
-                Cookies.set("user", data.token, { expires: 7 });
+                const decodedUser: User = jwtDecode(data.token);
+                setUser(decodedUser);
             }
         } catch (e) {
             console.error(e);
@@ -61,7 +67,7 @@ export default function Signin() {
                             placeholder="User"
                             type="text"
                             name="username"
-                            value={user.username}
+                            value={userInput.username}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -72,14 +78,13 @@ export default function Signin() {
                             placeholder="Your password"
                             type="password"
                             name="password"
-                            value={user.password}
+                            value={userInput.password}
                             onChange={handleInputChange}
                         />
                     </div>
                     <p className="mb-6 text-center ">
                         Don't have an account?
                         <Link to={"/signup"} className="text-lime-500">
-                            {" "}
                             Sign Up
                         </Link>
                     </p>

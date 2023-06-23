@@ -51,7 +51,6 @@ const EditProject = ({
                 closeModal();
             });
         } catch (e) {
-            console.log(e);
             setIsLoading(false);
         }
     };

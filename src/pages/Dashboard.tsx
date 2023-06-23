@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import PageHeader from "../components/PageHeader";
 import Container from "../components/UI/Container";
 import CardSkeleton from "../components/CardSkeleton";
+
 const ProjectsContainer = lazy(() => import("../components/ProjectsContainer"));
 
 export default function Dashboard() {

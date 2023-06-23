@@ -18,17 +18,18 @@ export default function Project() {
     const { id } = useParams();
     const [tasks, setTasks] = useState<TaskInterface[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
     const [isLoading, setIsLoading] = useState(false);
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+
     useEffect(() => {
         getTasks();
     }, []);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const getTasks = async () => {
         setIsLoading(true);

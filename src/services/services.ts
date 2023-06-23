@@ -2,11 +2,10 @@ import Cookies from "js-cookie";
 import { Project, TaskInterface } from "../types/types";
 
 const url = "https://todo-backend-mf0a.onrender.com/api";
-const token = Cookies.get("user");
 
 export const getProjects = async () => {
-    const url = "https://todo-backend-mf0a.onrender.com/api";
     const token = Cookies.get("user");
+
     const res = await fetch(`${url}/project`, {
         method: "GET",
         headers: {
@@ -22,6 +21,8 @@ export const getProjects = async () => {
 };
 
 export const updateProject = async (projectId: string, data: Project) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/project/${projectId}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -38,6 +39,8 @@ export const updateProject = async (projectId: string, data: Project) => {
 };
 
 export const createProject = async (data: Project) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/project`, {
         method: "POST",
         body: JSON.stringify(data),
@@ -54,6 +57,8 @@ export const createProject = async (data: Project) => {
 };
 
 export const deleteProject = async (id: string) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/project/${id}`, {
         method: "DELETE",
         headers: {
@@ -67,6 +72,8 @@ export const deleteProject = async (id: string) => {
 };
 
 export const getProjectById = async (id: string) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/project/${id}`, {
         method: "GET",
         headers: {
@@ -82,6 +89,8 @@ export const getProjectById = async (id: string) => {
 //TASKS
 
 export const updateTask = async (taskId: string, data: TaskInterface) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/task/${taskId}`, {
         method: "PUT",
         body: JSON.stringify(data),
@@ -97,6 +106,8 @@ export const updateTask = async (taskId: string, data: TaskInterface) => {
 };
 
 export const createTask = async (projectId: string, newTask: TaskInterface) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/task`, {
         method: "POST",
         body: JSON.stringify({ projectId, ...newTask }),
@@ -113,6 +124,8 @@ export const createTask = async (projectId: string, newTask: TaskInterface) => {
 };
 
 export const deleteTask = async (id: string) => {
+    const token = Cookies.get("user");
+
     const res = await fetch(`${url}/task/${id}`, {
         method: "DELETE",
         headers: {

@@ -27,6 +27,7 @@ export default function EditTask({
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
+        if (task.title === newTask.title) return;
         setIsFormLoading(true);
         updateTask(task.id!, newTask).then((data) => {
             let updatedTask: TaskInterface = data.data;

@@ -1,24 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "../components/UI/Container";
 import Input from "../components/UI/Input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
-import { useAuth } from "../hooks/useAuth";
 import Button from "../components/UI/Button";
-import jwtDecode from "jwt-decode";
-import { User } from "../types/types";
+import { AuthContext } from "../context/AuthContext";
 
-export default function Signin() {
+export default function SignIn() {
     const [userInput, setUserInput] = useState({ username: "", password: "" });
     const [isLoading, setIsLoading] = useState(false);
-    const { setIsAuthenticated, setUser } = useAuth();
 
     const url = "https://todo-backend-mf0a.onrender.com/";
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const login = async () => {
         try {
@@ -38,8 +38,9 @@ export default function Signin() {
                 const data = await res.json();
                 Cookies.set("user", data.token);
                 setIsAuthenticated(true);
-                const decodedUser: User = jwtDecode(data.token);
-                setUser(decodedUser);
+                navigate("/dashboard");
+                // const decodedUser: User = jwtDecode(data.token);
+                // setUser(decodedUser);
             }
         } catch (e) {
             console.error(e);

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useState, useEffect, createContext } from "react";
 import { getProjectById } from "../services/services";
@@ -9,7 +9,6 @@ import { TaskContextInterface, TaskInterface } from "../types/types";
 import { GoPlus } from "react-icons/go";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { CreateNewTask } from "../components/CreateNewTask";
-
 export const TasksContext = createContext<TaskContextInterface | undefined>(
     undefined
 );
@@ -51,8 +50,8 @@ export default function Project() {
     const totalTasks = tasks.length;
 
     return (
-        <TasksContext.Provider value={{ tasks, setTasks }}>
-            <div className="flex lg:flex-row h-screen w-screen">
+        <div className="flex lg:flex-row h-screen w-screen">
+            <TasksContext.Provider value={{ tasks, setTasks }}>
                 <Navbar />
                 <main className="w-full px-8 mb-24">
                     <PageHeader title="Projects" />
@@ -90,7 +89,7 @@ export default function Project() {
                     isModalOpen={isModalOpen}
                     closeModal={closeModal}
                 />
-            </div>
-        </TasksContext.Provider>
+            </TasksContext.Provider>
+        </div>
     );
 }

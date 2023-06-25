@@ -5,7 +5,6 @@ const url = "https://todo-backend-mf0a.onrender.com/api";
 
 export const getProjects = async () => {
     const token = Cookies.get("user");
-
     const res = await fetch(`${url}/project`, {
         method: "GET",
         headers: {

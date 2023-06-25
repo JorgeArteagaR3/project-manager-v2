@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import Container from "../components/UI/Container";
 import Input from "../components/UI/Input";
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
 import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
 import Button from "../components/UI/Button";
@@ -10,7 +9,6 @@ import Button from "../components/UI/Button";
 export default function SignUp() {
     const [user, setUser] = useState({ username: "", password: "", email: "" });
     const [isLoading, setIsLoading] = useState(false);
-    const { setIsAuthenticated } = useAuth();
 
     const url = "https://todo-backend-mf0a.onrender.com/";
 
@@ -35,7 +33,6 @@ export default function SignUp() {
             }
             const data = await res.json();
             Cookies.set("user", data.token, { expires: 7 });
-            setIsAuthenticated(true);
         } catch (e) {
             console.error(e);
         }

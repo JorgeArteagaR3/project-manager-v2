@@ -1,22 +1,14 @@
 import { getProjects } from "../services/services";
 import { Project } from "../types/types";
 import ProjectCard from "./ProjectCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "./UI/Container";
 import CreateNewProject from "./CreateNewProject";
-import { createContext } from "react";
 import CardSkeleton from "./CardSkeleton";
-
-interface ProjectsContextType {
-    projects: Project[];
-    setProjects: (value: React.SetStateAction<Project[]>) => void;
-}
-export const ProjectsContext = createContext<ProjectsContextType | undefined>(
-    undefined
-);
+import { ProjectsContext } from "../context/ProjectsContext";
 
 export default function ProjectsContainer() {
-    const [projects, setProjects] = useState<Project[]>([]);
+    const { projects, setProjects } = useContext(ProjectsContext);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -41,21 +33,19 @@ export default function ProjectsContainer() {
     };
 
     return (
-        <ProjectsContext.Provider value={{ projects, setProjects }}>
-            <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10 mb-32 relative">
-                {!isLoading ? (
-                    <>
-                        <CreateNewProject />
-                        {projects?.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-                    </>
-                ) : (
-                    new Array(6)
-                        .fill(1)
-                        .map((_, index) => <CardSkeleton key={index} />)
-                )}
-            </Container>
-        </ProjectsContext.Provider>
+        <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10 mb-32 relative">
+            {!isLoading ? (
+                <>
+                    <CreateNewProject />
+                    {projects?.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                    ))}
+                </>
+            ) : (
+                new Array(6)
+                    .fill(1)
+                    .map((_, index) => <CardSkeleton key={index} />)
+            )}
+        </Container>
     );
 }

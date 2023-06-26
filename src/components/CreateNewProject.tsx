@@ -6,8 +6,8 @@ import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { Project } from "../types/types";
 import { createProject } from "../services/services";
-import { ProjectsContext } from "./ProjectsContainer";
 import SpinnerLoader from "./SpinnerLoader";
+import { ProjectsContext } from "../context/ProjectsContext";
 
 const CreateNewProject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,11 +17,7 @@ const CreateNewProject = () => {
     });
     const [isLoading, setIsLoading] = useState(false);
 
-    const projectsContext = useContext(ProjectsContext);
-    if (!projectsContext) {
-        throw new Error("No Projects context found");
-    }
-    const { setProjects } = projectsContext;
+    const { setProjects } = useContext(ProjectsContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e

@@ -1,7 +1,5 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { AuthContextType } from "../types/types";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 const initialValue: AuthContextType = {
     isAuthenticated: false,
@@ -17,8 +15,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         initialValue.isAuthenticated
     );
     const [user, setUser] = useState(initialValue.user);
-
-    const navigate = useNavigate();
 
     return (
         <AuthContext.Provider

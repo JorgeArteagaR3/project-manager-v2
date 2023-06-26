@@ -1,11 +1,11 @@
-import { TaskContextInterface, TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/types";
 import CustomModal from "./UI/CustomModal";
 import { useState, useContext } from "react";
 import SpinnerLoader from "./SpinnerLoader";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { updateTask } from "../services/services";
-import { TasksContext } from "../pages/Project";
+import { TasksContext } from "../context/TasksContext";
 
 export default function EditTask({
     task,
@@ -21,9 +21,7 @@ export default function EditTask({
         description: task.description,
     });
     const [isFormLoading, setIsFormLoading] = useState(false);
-    const { tasks, setTasks } = useContext(
-        TasksContext
-    ) as TaskContextInterface;
+    const { tasks, setTasks } = useContext(TasksContext);
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -80,7 +78,7 @@ export default function EditTask({
                     />
                 </div>
                 <div className="flex gap-4">
-                    <Button type="submit">Create</Button>
+                    <Button type="submit">Save</Button>
                     <Button className="bg-red-400" onClick={closeModal}>
                         Cancel
                     </Button>

@@ -1,31 +1,27 @@
 import Card from "./UI/Card";
 import { RxDotsVertical } from "react-icons/rx";
-import { Project, ProjectsContextInterface } from "../types/types";
+import { Project } from "../types/types";
 import { useContext, useState } from "react";
 import SpinnerLoader from "./SpinnerLoader";
 import { deleteProject } from "../services/services";
-import { ProjectsContext } from "./ProjectsContainer";
 import { Link } from "react-router-dom";
 import EditProject from "./EditProject";
 import CircularProgress from "./UI/CircularProgress";
 import { BsCheck } from "react-icons/bs";
 import clsx from "clsx";
+import { ProjectsContext } from "../context/ProjectsContext";
 
 export default function ProjectCard({ project }: { project: Project }) {
     const [areOptionsOpen, setAreOptionsOpen] = useState(false);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => {
         setIsModalOpen(true);
         handleOptions();
     };
     const [isSpinnerLoading, setIsSpinnerLoading] = useState(false);
+    const { projects, setProjects } = useContext(ProjectsContext);
 
     const closeModal = () => setIsModalOpen(false);
-
-    const { projects, setProjects } = useContext(
-        ProjectsContext
-    ) as ProjectsContextInterface;
 
     const handleOptions = () => {
         setAreOptionsOpen(!areOptionsOpen);

@@ -2,14 +2,10 @@ import CustomModal from "./UI/CustomModal";
 import { FormEventHandler, useContext, useState } from "react";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import {
-    EditProjectInterface,
-    Project,
-    ProjectsContextInterface,
-} from "../types/types";
-import { ProjectsContext } from "./ProjectsContainer";
+import { EditProjectInterface, Project } from "../types/types";
 import SpinnerLoader from "./SpinnerLoader";
 import { updateProject } from "../services/services";
+import { ProjectsContext } from "../context/ProjectsContext";
 
 const EditProject = ({
     project,
@@ -22,9 +18,7 @@ const EditProject = ({
     });
     const [isLoading, setIsLoading] = useState(false);
 
-    const { projects, setProjects } = useContext(
-        ProjectsContext
-    ) as ProjectsContextInterface;
+    const { projects, setProjects } = useContext(ProjectsContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e
@@ -89,7 +83,7 @@ const EditProject = ({
                     />
                 </div>
                 <div className="flex gap-4">
-                    <Button type="submit">Create</Button>
+                    <Button type="submit">Save</Button>
                     <Button className="bg-red-400" onClick={closeModal}>
                         Cancel
                     </Button>

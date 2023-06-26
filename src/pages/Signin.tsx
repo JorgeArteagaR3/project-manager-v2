@@ -39,8 +39,6 @@ export default function SignIn() {
                 Cookies.set("user", data.token);
                 setIsAuthenticated(true);
                 navigate("/dashboard");
-                // const decodedUser: User = jwtDecode(data.token);
-                // setUser(decodedUser);
             }
         } catch (e) {
             console.error(e);
@@ -77,6 +75,7 @@ export default function SignIn() {
                         <Input
                             id="password"
                             placeholder="Your password"
+                            aria-current
                             type="password"
                             name="password"
                             value={userInput.password}

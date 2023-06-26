@@ -1,16 +1,13 @@
 import CustomModal from "./UI/CustomModal";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import {
-    ModalInterface,
-    TaskContextInterface,
-    TaskInterface,
-} from "../types/types";
+import { ModalInterface, TaskInterface } from "../types/types";
 import SpinnerLoader from "./SpinnerLoader";
 import { useState, useContext } from "react";
 import { createTask } from "../services/services";
-import { TasksContext } from "../pages/Project";
 import { useParams } from "react-router-dom";
+import { TasksContext } from "../context/TasksContext";
+
 export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     const [newTask, setNewTask] = useState<TaskInterface>({
         title: "",
@@ -19,9 +16,7 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
 
     const [isFormLoading, setIsFormLoading] = useState(false);
 
-    const { setTasks, tasks } = useContext(
-        TasksContext
-    ) as TaskContextInterface;
+    const { setTasks, tasks } = useContext(TasksContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e

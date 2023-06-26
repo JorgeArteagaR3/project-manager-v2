@@ -1,23 +1,21 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { getProjectById } from "../services/services";
 
 import PageHeader from "../components/PageHeader";
 import { Task } from "../components/Task";
-import { TaskContextInterface, TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/types";
 import { GoPlus } from "react-icons/go";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { CreateNewTask } from "../components/CreateNewTask";
-export const TasksContext = createContext<TaskContextInterface | undefined>(
-    undefined
-);
+import { TasksContext, initialValue } from "../context/TasksContext";
 
 export default function Project() {
     const { id } = useParams();
-    const [tasks, setTasks] = useState<TaskInterface[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [tasks, setTasks] = useState(initialValue.tasks);
 
     useEffect(() => {
         getTasks();
@@ -50,8 +48,8 @@ export default function Project() {
     const totalTasks = tasks.length;
 
     return (
-        <div className="flex lg:flex-row h-screen w-screen">
-            <TasksContext.Provider value={{ tasks, setTasks }}>
+        <TasksContext.Provider value={{ tasks, setTasks }}>
+            <div className="flex lg:flex-row h-screen w-screen">
                 <Navbar />
                 <main className="w-full px-8 mb-24">
                     <PageHeader title="Projects" />
@@ -89,7 +87,7 @@ export default function Project() {
                     isModalOpen={isModalOpen}
                     closeModal={closeModal}
                 />
-            </TasksContext.Provider>
-        </div>
+            </div>
+        </TasksContext.Provider>
     );
 }

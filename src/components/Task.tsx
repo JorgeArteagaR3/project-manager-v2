@@ -1,11 +1,11 @@
 import { BsCheck } from "react-icons/bs";
-import { TaskContextInterface, TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/types";
 import { useContext, useState } from "react";
-import { TasksContext } from "../pages/Project";
 import { deleteTask, updateTask } from "../services/services";
 import SpinnerLoader from "./SpinnerLoader";
 import { RxDotsVertical } from "react-icons/rx";
 import EditTask from "./EditTask";
+import { TasksContext } from "../context/TasksContext";
 
 export const Task = ({ task }: { task: TaskInterface }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -13,9 +13,7 @@ export const Task = ({ task }: { task: TaskInterface }) => {
     const [areOptionsLoading, setAreOptionsLoading] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-    const { tasks, setTasks } = useContext(
-        TasksContext
-    ) as TaskContextInterface;
+    const { tasks, setTasks } = useContext(TasksContext);
 
     const isCompleted = task.status === "COMPLETED" ? true : false;
 

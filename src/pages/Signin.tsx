@@ -18,6 +18,7 @@ const SignIn = () => {
     };
 
     const { setIsAuthenticated } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const login = async () => {

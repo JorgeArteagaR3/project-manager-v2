@@ -7,7 +7,7 @@ import SpinnerLoader from "../components/SpinnerLoader";
 import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
 
-const SignIn = () => {
+export const SignIn = () => {
     const [userInput, setUserInput] = useState({ username: "", password: "" });
     const [isLoading, setIsLoading] = useState(false);
 
@@ -95,4 +95,3 @@ const SignIn = () => {
         </div>
     );
 };
-export default SignIn;

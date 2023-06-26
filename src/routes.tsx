@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Routes as Router, Route, Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
-import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Project from "./pages/Project";
 import Cookies from "js-cookie";

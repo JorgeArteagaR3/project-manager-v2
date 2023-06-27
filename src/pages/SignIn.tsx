@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import Container from "./UI/Container";
-import Input from "./UI/Input";
+import Container from "../components/UI/Container";
+import Input from "../components/UI/Input";
 import { useContext, useState } from "react";
 import Cookies from "js-cookie";
-import SpinnerLoader from "./SpinnerLoader";
-import Button from "./UI/Button";
+import SpinnerLoader from "../components/SpinnerLoader";
+import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {

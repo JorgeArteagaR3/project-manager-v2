@@ -33,7 +33,7 @@ export default function ProjectsContainer() {
     };
 
     return (
-        <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10 mb-32 relative">
+        <Container className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-10 pb-28 relative w-full">
             {!isLoading ? (
                 <>
                     <CreateNewProject />

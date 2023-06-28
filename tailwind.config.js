@@ -4,9 +4,11 @@ export default {
     theme: {
         extend: {
             colors: {
-                background: "#111219",
-                bigcontainer: "#171821",
-                cardbg: "#34353d",
+                background: "#121315",
+                secondary: "#191d20",
+                darktext: "#79818e",
+                darkborder: "#3b3f40",
+                darksearch: "#272a2f",
             },
         },
     },

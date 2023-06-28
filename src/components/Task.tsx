@@ -63,7 +63,7 @@ export const Task = ({ task }: { task: TaskInterface }) => {
     };
 
     return (
-        <div className="flex justify-between items-center w-full bg-bigcontainer p-6 rounded-2xl relative">
+        <div className="flex justify-between items-center w-full bg-secondary p-6 rounded-2xl relative">
             {isLoading && <SpinnerLoader />}
             <div>
                 <p className="font-bold">{task.title}</p>
@@ -85,9 +85,9 @@ export const Task = ({ task }: { task: TaskInterface }) => {
                         />
                     )}
                 </div>
-                <div className="relative">
+                <div className="relative ml-2 md:ml-4 lg:ml-6">
                     <RxDotsVertical
-                        className="cursor-pointer justify-self-end ml-2 md:ml-4 lg:ml-6"
+                        className="cursor-pointer justify-self-end "
                         onClick={toggleOptions}
                     />
                     {areOptionsOpen && (

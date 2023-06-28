@@ -7,7 +7,7 @@ export default function Card({
     return (
         <div
             className={clsx(
-                "bg-gradient-to-br from-background via-background via-background to-[#50483257] p-4 rounded-lg",
+                "bg-background p-4 rounded-lg bg-secondary",
                 className
             )}
         >

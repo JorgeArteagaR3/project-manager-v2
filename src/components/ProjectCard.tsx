@@ -48,10 +48,10 @@ export default function ProjectCard({ project }: { project: Project }) {
     const allTasksAreCompleted = percentage === 100;
     return (
         <Card className="relative">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 border-b border-darkborder pb-2 mb-4">
                 <div
                     className={clsx(
-                        "bg-amber-400 rounded-full px-2 py-1 font-bold text-sm mb-2 text-bigcontainer",
+                        "bg-amber-400 rounded-full px-2 py-1 font-bold text-sm mb-2 text-secondary",
                         allTasksAreCompleted && "bg-green-300"
                     )}
                 >
@@ -87,7 +87,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                     )}
                 </div>
             </div>
-            <div className="border-b border-gray-600 pb-6">
+            <div className="border-b border-darkborder pb-6 text-white">
                 <Link
                     to={`/project/${project.id}`}
                     className="font-bold text-lg mb-1 first-letter:uppercase"

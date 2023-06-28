@@ -9,7 +9,10 @@
         @apply absolute right-0 bg-background top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40;
     }
     .options-item {
-        @apply hover:bg-[#37394a] cursor-pointer;
+        @apply hover:bg-secondary cursor-pointer;
+    }
+    .page-title {
+        @apply my-6 md:my-12 font-bold md:text-2xl border-b pb-5 border-darkborder;
     }
 }
 
@@ -19,7 +22,7 @@
     box-sizing: border-box;
 }
 body {
-    background: #111219;
-    color: #aaaeca;
+    background: #121315;
     font-family: "Roboto", sans-serif;
+    color: #8b94a3;
 }

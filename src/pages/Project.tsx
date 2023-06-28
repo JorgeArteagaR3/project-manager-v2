@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { getProjectById } from "../services/services";
 
-import PageHeader from "../components/PageHeader";
 import { Task } from "../components/Task";
 import { TaskInterface } from "../types/types";
 import { GoPlus } from "react-icons/go";
@@ -49,40 +47,33 @@ export default function Project() {
 
     return (
         <TasksContext.Provider value={{ tasks, setTasks }}>
-            <div className="flex lg:flex-row h-screen w-screen">
-                <Navbar />
-                <main className="w-full px-8 mb-24">
-                    <PageHeader title="Projects" />
-                    <div className="w-full md:w-11/12 md:mx-auto">
-                        <div className="mx-auto border border-gray-700 flex items-center gap-3 px-3 py-4 rounded-xl mb-4 relative">
-                            <div
-                                className="bg-green-300 w-8 h-8 flex items-center justify-center rounded-full cursor-pointer"
-                                onClick={openModal}
-                            >
-                                <GoPlus className="lg:text-2xl text-background text-lg" />
-                            </div>
-                            <p>Add a task</p>
-                            {isLoading && (
-                                <SpinnerLoader className="rounded-full" />
-                            )}
-                        </div>
-                        {<p className="font-bold mb-6">Tasks - {totalTasks}</p>}
-                        <div className="flex flex-col gap-4 relative">
-                            {!isLoading
-                                ? tasks.map((task: TaskInterface) => (
-                                      <Task key={task.id} task={task} />
-                                  ))
-                                : new Array(6)
-                                      .fill(1)
-                                      .map((_, idx) => (
-                                          <div
-                                              key={idx}
-                                              className="min-h-[80px] h-full skeleton rounded-xl"
-                                          ></div>
-                                      ))}
-                        </div>
+            <div className="w-full pb-28 lg:pb-12">
+                <h2 className="page-title">Projects</h2>
+                <div className="mx-auto border border-gray-700 flex items-center gap-3 px-3 py-4 rounded-xl mb-4 relative">
+                    <div
+                        className="bg-green-300 w-8 h-8 flex items-center justify-center rounded-full cursor-pointer"
+                        onClick={openModal}
+                    >
+                        <GoPlus className="lg:text-2xl text-background text-lg" />
                     </div>
-                </main>
+                    <p>Add a task</p>
+                    {isLoading && <SpinnerLoader className="rounded-full" />}
+                </div>
+                {<p className="font-bold mb-6">Tasks - {totalTasks}</p>}
+                <div className="flex flex-col gap-4 relative">
+                    {!isLoading
+                        ? tasks.map((task: TaskInterface) => (
+                              <Task key={task.id} task={task} />
+                          ))
+                        : new Array(6)
+                              .fill(1)
+                              .map((_, idx) => (
+                                  <div
+                                      key={idx}
+                                      className="min-h-[80px] h-full skeleton rounded-xl"
+                                  ></div>
+                              ))}
+                </div>
                 <CreateNewTask
                     isModalOpen={isModalOpen}
                     closeModal={closeModal}

@@ -6,6 +6,9 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Project from "./pages/Project";
 import Cookies from "js-cookie";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Layout from "./pages/Layout";
 
 const PrivateRoutes = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -39,9 +42,13 @@ const Routes = () => {
                 <Route path="/signin" element={<SignIn />} />
             </Route>
             <Route element={<PrivateRoutes />}>
-                <Route path="*" element={<Navigate to={"/dashboard"} />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/project/:id" element={<Project />} />
+                <Route element={<Layout />}>
+                    <Route path="*" element={<Navigate to={"/dashboard"} />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/project/:id" element={<Project />} />
+                </Route>
             </Route>
         </Router>
     );

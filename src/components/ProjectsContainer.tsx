@@ -14,11 +14,9 @@ export default function ProjectsContainer({
 }) {
     const { setProjects } = useContext(ProjectsContext);
     const [isLoading, setIsLoading] = useState(false);
-    console.log(projects);
+
     useEffect(() => {
-        if (!projects.length) {
-            getAllProjects();
-        }
+        getAllProjects();
     }, []);
 
     const getAllProjects = async () => {

@@ -50,8 +50,8 @@ export default function SignUp() {
                     <h2 className="font-bold text-3xl mb-3">
                         Get your free account
                     </h2>
-                    <p className="text-2xl mb-2">Welcome Back.</p>
-                    <p className="text-2xl mb-6">You've been missed!</p>
+                    <p className="text-2xl mb-2">Welcome.</p>
+                    <p className="text-2xl mb-6">Let's get started!</p>
                     <div className="flex flex-col gap-2 mb-6">
                         <label htmlFor="username">Username</label>
                         <Input
@@ -85,6 +85,7 @@ export default function SignUp() {
                     <p className="mb-6 text-center ">
                         Already have an account?
                         <Link to={"/signin"} className="text-lime-500">
+                            {" "}
                             Sign In
                         </Link>
                     </p>

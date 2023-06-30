@@ -4,26 +4,76 @@ import Cookies from "js-cookie";
 import { AiOutlineDown } from "react-icons/ai";
 import Input from "./UI/Input";
 import { BsSearch } from "react-icons/bs";
+import { AuthContext } from "../context/AuthContext";
+import { useContext, useState } from "react";
+import clsx from "clsx";
+
 export default function PageHeader() {
     const token = Cookies.get("user");
     const decodedUser: User = jwtDecode(token!);
+    const [isShowing, setIsShowing] = useState(false);
 
+    const { setIsAuthenticated } = useContext(AuthContext);
+
+    const toggleOptions = () => {
+        setIsShowing(!isShowing);
+    };
+
+    const handleSignOut = () => {
+        setIsAuthenticated(false);
+        Cookies.remove("user");
+        toggleOptions();
+    };
+    const handleOptions = () => {};
     return (
         <header className="py-6 flex w-full px-6 md:px-10 bg-secondary mb-4 flex-col gap-4 items-end md:flex-row-reverse md:items-center md:justify-between">
             <div className="flex items-center gap-2">
-                <p className="flex gap-1">
+                <p
+                    className={clsx(
+                        "flex gap-1 duration-300",
+                        isShowing && "text-white"
+                    )}
+                >
                     Welcome,
                     <span className="block first-letter:uppercase">
                         {decodedUser.username}
                     </span>
                 </p>
-                <AiOutlineDown />
+                <div className="relative">
+                    <AiOutlineDown
+                        onClick={toggleOptions}
+                        className={clsx(
+                            "cursor-pointer hover:fill-white",
+                            isShowing && "fill-white"
+                        )}
+                    />
+
+                    <ul
+                        className={clsx(
+                            "options-list visible duration-300 opacity-1",
+                            !isShowing && "opacity-0 invisible"
+                        )}
+                    >
+                        <li
+                            onClick={handleSignOut}
+                            className="cursor-pointer options-item border-b border-stone-800 text-red-400"
+                        >
+                            Sign Out
+                        </li>
+                        <li
+                            className="cursor-pointer options-item"
+                            onClick={toggleOptions}
+                        >
+                            Close
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className="w-full relative">
                 <Input
                     type="text"
                     placeholder="Search"
-                    className="border-none pl-11 w-full md:max-w-[400px] bg-[#272a2f]"
+                    className="border-none pl-11 w-full md:max-w-[400px] bg-darksearch"
                 />
                 <BsSearch className="absolute top-0 bottom-0 my-auto left-3" />
             </div>

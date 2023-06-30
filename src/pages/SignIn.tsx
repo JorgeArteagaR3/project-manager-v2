@@ -83,9 +83,10 @@ const SignIn = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    <p className="mb-6 text-center ">
+                    <p className="mb-6 text-center">
                         Don't have an account?
                         <Link to={"/signup"} className="text-lime-500">
+                            {" "}
                             Sign Up
                         </Link>
                     </p>

@@ -6,10 +6,10 @@
 
 @layer components {
     .options-list {
-        @apply absolute right-0 bg-background top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40;
+        @apply absolute right-0 bg-navbarblack top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40;
     }
     .options-item {
-        @apply hover:bg-secondary cursor-pointer;
+        @apply hover:bg-background cursor-pointer py-2;
     }
     .page-title {
         @apply my-6 md:my-12 font-bold md:text-2xl border-b pb-5 border-darkborder;

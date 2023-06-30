@@ -9,6 +9,7 @@ export default {
                 darktext: "#79818e",
                 darkborder: "#3b3f40",
                 darksearch: "#272a2f",
+                navbarblack: "#0d0e10",
             },
         },
     },

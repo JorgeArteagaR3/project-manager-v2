@@ -62,29 +62,29 @@ export default function ProjectCard({ project }: { project: Project }) {
                         className="cursor-pointer"
                         onClick={handleOptions}
                     />
-                    {areOptionsOpen && (
-                        <ul className="options-list">
-                            <li
-                                className="rounded-t-lg border-b border-stone-800 py-2 options-item text-red-400"
-                                onClick={handleDeleteProjects}
-                            >
-                                Delete
-                            </li>
-                            <li
-                                className="py-2 border-b border-stone-800 options-item"
-                                onClick={openModal}
-                            >
-                                Edit
-                            </li>
-                            <li
-                                className="py-2 options-item"
-                                onClick={handleOptions}
-                            >
-                                Cancel
-                            </li>
-                            {isSpinnerLoading && <SpinnerLoader />}
-                        </ul>
-                    )}
+                    <ul
+                        className={clsx(
+                            "options-list visible duration-300 opacity-1 ",
+                            !areOptionsOpen && "invisible opacity-0 "
+                        )}
+                    >
+                        <li
+                            className="rounded-t-lg border-b border-stone-800 options-item text-red-400"
+                            onClick={handleDeleteProjects}
+                        >
+                            Delete
+                        </li>
+                        <li
+                            className="border-b border-stone-800 options-item"
+                            onClick={openModal}
+                        >
+                            Edit
+                        </li>
+                        <li className="options-item" onClick={handleOptions}>
+                            Cancel
+                        </li>
+                        {isSpinnerLoading && <SpinnerLoader />}
+                    </ul>
                 </div>
             </div>
             <div className="border-b border-darkborder pb-6 text-white">

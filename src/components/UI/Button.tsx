@@ -10,7 +10,7 @@ export default function Button({
         <button
             {...rest}
             className={clsx(
-                "bg-[#aaaeca] text-background w-full p-2 rounded-md font-bold",
+                "bg-darktext text-background w-full p-2 rounded-md font-bold duration-300 hover:bg-navbarblack hover:text-[#aaaeca]",
                 className
             )}
         >

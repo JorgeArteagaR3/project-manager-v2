@@ -6,6 +6,7 @@ import SpinnerLoader from "./SpinnerLoader";
 import { RxDotsVertical } from "react-icons/rx";
 import EditTask from "./EditTask";
 import { TasksContext } from "../context/TasksContext";
+import clsx from "clsx";
 
 export const Task = ({ task }: { task: TaskInterface }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -90,29 +91,32 @@ export const Task = ({ task }: { task: TaskInterface }) => {
                         className="cursor-pointer justify-self-end "
                         onClick={toggleOptions}
                     />
-                    {areOptionsOpen && (
-                        <ul className="options-list">
-                            <li
-                                className="options-item py-2 border-b border-stone-800 text-red-400 rounded-t-lg"
-                                onClick={removeTask}
-                            >
-                                Delete
-                            </li>
-                            <li
-                                className="options-item py-2 border-b border-stone-800"
-                                onClick={openModal}
-                            >
-                                Edit
-                            </li>
-                            <li
-                                className="options-item py-2 rounded-b-lg"
-                                onClick={toggleOptions}
-                            >
-                                Cancel
-                            </li>
-                            {areOptionsLoading && <SpinnerLoader />}
-                        </ul>
-                    )}
+                    <ul
+                        className={clsx(
+                            "options-list visible opacity-1 duration-300",
+                            !areOptionsOpen && "invisible opacity-0"
+                        )}
+                    >
+                        <li
+                            className="options-item py-2 border-b border-stone-800 text-red-400 rounded-t-lg"
+                            onClick={removeTask}
+                        >
+                            Delete
+                        </li>
+                        <li
+                            className="options-item py-2 border-b border-stone-800"
+                            onClick={openModal}
+                        >
+                            Edit
+                        </li>
+                        <li
+                            className="options-item py-2 rounded-b-lg"
+                            onClick={toggleOptions}
+                        >
+                            Cancel
+                        </li>
+                        {areOptionsLoading && <SpinnerLoader />}
+                    </ul>
                 </div>
             </div>
             <EditTask

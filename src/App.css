@@ -33,3 +33,6 @@
     animation: loadingskeleton infinite 2.5s;
     background-color: #696969;
 }
+.skeleton:nth-child(odd) {
+    animation-delay: 0.4s;
+}

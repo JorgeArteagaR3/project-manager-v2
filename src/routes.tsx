@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Layout from "./pages/Layout";
-import { ProjectsProvider } from "./context/ProjectsContext";
 
 const PrivateRoutes = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);

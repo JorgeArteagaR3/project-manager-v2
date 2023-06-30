@@ -6,7 +6,6 @@ export default {
             colors: {
                 background: "#121315",
                 secondary: "#191d20",
-                darktext: "#79818e",
                 darkborder: "#3b3f40",
                 darksearch: "#272a2f",
                 navbarblack: "#0d0e10",

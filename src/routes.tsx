@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Layout from "./pages/Layout";
+import { ProjectsProvider } from "./context/ProjectsContext";
 
 const PrivateRoutes = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -41,6 +42,7 @@ const Routes = () => {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/signin" element={<SignIn />} />
             </Route>
+
             <Route element={<PrivateRoutes />}>
                 <Route element={<Layout />}>
                     <Route path="*" element={<Navigate to={"/dashboard"} />} />

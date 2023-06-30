@@ -7,12 +7,18 @@ import CreateNewProject from "./CreateNewProject";
 import CardSkeleton from "./CardSkeleton";
 import { ProjectsContext } from "../context/ProjectsContext";
 
-export default function ProjectsContainer() {
-    const { projects, setProjects } = useContext(ProjectsContext);
+export default function ProjectsContainer({
+    projects,
+}: {
+    projects: Project[];
+}) {
+    const { setProjects } = useContext(ProjectsContext);
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log(projects);
     useEffect(() => {
-        getAllProjects();
+        if (!projects.length) {
+            getAllProjects();
+        }
     }, []);
 
     const getAllProjects = async () => {

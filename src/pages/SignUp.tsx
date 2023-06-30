@@ -1,20 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "../components/UI/Container";
 import Input from "../components/UI/Input";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
 import Button from "../components/UI/Button";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SignUp() {
     const [user, setUser] = useState({ username: "", password: "", email: "" });
     const [isLoading, setIsLoading] = useState(false);
-
+    const { setIsAuthenticated } = useContext(AuthContext);
     const url = "https://todo-backend-mf0a.onrender.com/";
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
+
+    const navigate = useNavigate();
 
     const register = async () => {
         try {
@@ -33,6 +36,8 @@ export default function SignUp() {
             }
             const data = await res.json();
             Cookies.set("user", data.token, { expires: 7 });
+            setIsAuthenticated(true);
+            navigate("/dashboard");
         } catch (e) {
             console.error(e);
         }

@@ -7,7 +7,7 @@ export default function Card({
     return (
         <div
             className={clsx(
-                "bg-background p-4 rounded-lg bg-secondary",
+                "dark:bg-secondary p-4 rounded-lg bg-lightcard",
                 className
             )}
         >

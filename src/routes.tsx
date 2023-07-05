@@ -9,7 +9,8 @@ import Cookies from "js-cookie";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Layout from "./pages/Layout";
-
+import { useDocumentTitle } from "./hooks/useDocumentTitle";
+import { useDarkTheme } from "./hooks/useDarkTheme";
 const PrivateRoutes = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const token = Cookies.get("user");
@@ -35,6 +36,8 @@ const PublicRoutes = () => {
 };
 
 const Routes = () => {
+    useDocumentTitle();
+    useDarkTheme();
     return (
         <Router>
             <Route element={<PublicRoutes />}>

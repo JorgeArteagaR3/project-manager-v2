@@ -1,5 +1,4 @@
 import Modal from "react-modal";
-import { useEffect } from "react";
 
 export default function CustomModal({
     children,
@@ -11,14 +10,6 @@ export default function CustomModal({
     closeModal: () => void;
 }) {
     Modal.setAppElement("#modal");
-
-    useEffect(() => {
-        if (isModalOpen) {
-            document.body.classList.add("overflow-hidden");
-        } else {
-            document.body.classList.remove("overflow-hidden");
-        }
-    }, [isModalOpen]);
 
     return (
         <Modal

@@ -48,4 +48,5 @@ export interface ProjectsContextInterface {
 }
 export interface EditProjectInterface extends ModalInterface {
     project: Project;
+    toggleOptions: () => void;
 }

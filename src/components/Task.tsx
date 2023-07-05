@@ -1,70 +1,32 @@
 import { BsCheck } from "react-icons/bs";
 import { TaskInterface } from "../types/types";
-import { useContext, useState } from "react";
-import { deleteTask, updateTask } from "../services/services";
 import SpinnerLoader from "./SpinnerLoader";
 import { RxDotsVertical } from "react-icons/rx";
 import EditTask from "./EditTask";
-import { TasksContext } from "../context/TasksContext";
 import clsx from "clsx";
+import { useModal } from "../hooks/useModal";
+import { useTask } from "../hooks/useTask";
+import Card from "./UI/Card";
 
 export const Task = ({ task }: { task: TaskInterface }) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [areOptionsOpen, setArteOptionsOpen] = useState(false);
-    const [areOptionsLoading, setAreOptionsLoading] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const { isModalOpen, closeModal, openModal } = useModal();
+    const {
+        areOptionsLoading,
+        isCompleted,
+        isLoading,
+        handleUpdateTask,
+        toggleOptions,
+        removeTask,
+        areOptionsOpen,
+    } = useTask(task);
 
-    const { tasks, setTasks } = useContext(TasksContext);
-
-    const isCompleted = task.status === "COMPLETED" ? true : false;
-
-    const toggleOptions = () => {
-        setArteOptionsOpen(!areOptionsOpen);
-    };
-
-    const closeModal = () => setIsEditModalOpen(false);
-    const openModal = () => {
-        setIsEditModalOpen(true);
-        setArteOptionsOpen(false);
-    };
-
-    const handleUpdateTask: React.ChangeEventHandler<HTMLInputElement> = (
-        e
-    ) => {
-        e.preventDefault();
-        setIsLoading(true);
-        updateTask(task.id!, {
-            status: e.target.checked ? "COMPLETED" : "IN_PROGRESS",
-        }).then((data) => {
-            let updatedTask: TaskInterface = data.data;
-
-            let newTasks = tasks.map((task) =>
-                task.id === updatedTask.id
-                    ? { ...task, status: updatedTask.status }
-                    : task
-            );
-            setTasks(newTasks);
-            setIsLoading(false);
-        });
-    };
-
-    const removeTask = async () => {
-        setAreOptionsLoading(true);
-        const data = await deleteTask(task.id!);
-        const deletedTask: TaskInterface = data.data;
-        if (!deleteTask) {
-            setAreOptionsLoading(false);
-            return;
-        }
-        let filteredTasks: TaskInterface[] = tasks.filter(
-            (oneTask) => oneTask.id !== deletedTask.id
-        );
-        setTasks(filteredTasks);
-        setAreOptionsLoading(false);
+    const handleEdit = () => {
+        openModal();
+        toggleOptions();
     };
 
     return (
-        <div className="flex justify-between items-center w-full bg-secondary p-6 rounded-2xl relative">
+        <Card className="flex justify-between items-center w-full p-6 rounded-2xl relative">
             {isLoading && <SpinnerLoader />}
             <div>
                 <p className="font-bold">{task.title}</p>
@@ -98,15 +60,12 @@ export const Task = ({ task }: { task: TaskInterface }) => {
                         )}
                     >
                         <li
-                            className="options-item py-2 border-b border-stone-800 text-red-400 rounded-t-lg"
+                            className="options-item py-2 text-red-400 rounded-t-lg"
                             onClick={removeTask}
                         >
                             Delete
                         </li>
-                        <li
-                            className="options-item py-2 border-b border-stone-800"
-                            onClick={openModal}
-                        >
+                        <li className="options-item py-2" onClick={handleEdit}>
                             Edit
                         </li>
                         <li
@@ -120,10 +79,10 @@ export const Task = ({ task }: { task: TaskInterface }) => {
                 </div>
             </div>
             <EditTask
-                isEditModalOpen={isEditModalOpen}
+                isEditModalOpen={isModalOpen}
                 task={task}
                 closeModal={closeModal}
             />
-        </div>
+        </Card>
     );
 };

@@ -13,9 +13,8 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
         title: "",
         description: "",
     });
-
     const [isFormLoading, setIsFormLoading] = useState(false);
-
+    const { id } = useParams();
     const { setTasks, tasks } = useContext(TasksContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -23,8 +22,6 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     ) => {
         setNewTask({ ...newTask, [e.target.name]: e.target.value });
     };
-
-    const { id } = useParams();
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();

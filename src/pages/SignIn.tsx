@@ -47,8 +47,8 @@ const SignIn = () => {
     };
 
     return (
-        <div>
-            <Container className="mt-8 px-8 py-10 bg-transparent max-w-[550px] relative">
+        <div className="min-h-screen">
+            <Container className="px-8 py-10 bg-transparent max-w-[550px] relative">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -81,6 +81,7 @@ const SignIn = () => {
                             name="password"
                             value={userInput.password}
                             onChange={handleInputChange}
+                            autoComplete="on"
                         />
                     </div>
                     <p className="mb-6 text-center">

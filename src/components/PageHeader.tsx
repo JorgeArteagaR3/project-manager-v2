@@ -6,6 +6,7 @@ import { BsSearch } from "react-icons/bs";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useState } from "react";
 import clsx from "clsx";
+import DarkTheme from "./DarkTheme";
 
 export default function PageHeader({
     searchText,
@@ -37,11 +38,12 @@ export default function PageHeader({
     };
 
     return (
-        <header className="py-6 flex w-full px-6 md:px-10 bg-secondary mb-4 flex-col gap-4 items-end md:flex-row-reverse md:items-center md:justify-between">
+        <header className="py-6 flex w-full px-6 md:px-10 dark:bg-secondary dark:bg-darkheader bg-lightheader mb-4 flex-col gap-4 items-end md:flex-row-reverse md:items-center md:justify-between">
             <div className="flex items-center gap-2">
+                <DarkTheme />
                 <p
                     className={clsx(
-                        "flex gap-1 duration-300",
+                        "flex gap-1 duration-300 ml-2",
                         isShowing && "text-white"
                     )}
                 >
@@ -67,7 +69,7 @@ export default function PageHeader({
                     >
                         <li
                             onClick={handleSignOut}
-                            className="cursor-pointer options-item border-b border-stone-800 text-red-400"
+                            className="cursor-pointer options-item text-red-400"
                         >
                             Sign Out
                         </li>
@@ -84,7 +86,8 @@ export default function PageHeader({
                 <input
                     type="text"
                     placeholder="Search"
-                    className="border-none pl-11 w-full md:max-w-[400px] py-3 rounded-lg bg-darksearch outline-none text-white"
+                    className="border-none pl-11 w-full md:max-w-[400px] py-3 rounded-lg dark:bg-darksearch 
+                    bg-lightsearch outline-none dark:text-white text-lighttext dark:placeholder:text-darktext placeholder:text-lighttext"
                     value={searchText}
                     onChange={handleInputChange}
                 />

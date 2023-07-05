@@ -8,9 +8,10 @@ import { Project } from "../types/types";
 import { createProject } from "../services/services";
 import SpinnerLoader from "./SpinnerLoader";
 import { ProjectsContext } from "../context/ProjectsContext";
+import { useModal } from "../hooks/useModal";
 
 const CreateNewProject = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { closeModal, isModalOpen, openModal } = useModal();
     const [newProject, setNewProject] = useState<Project>({
         name: "",
         description: "",
@@ -24,8 +25,6 @@ const CreateNewProject = () => {
     ) => {
         setNewProject({ ...newProject, [e.target.name]: e.target.value });
     };
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
 
     const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault();
@@ -45,7 +44,7 @@ const CreateNewProject = () => {
             <FaPlusCircle
                 onClick={openModal}
                 size={36}
-                className="text-center mx-auto cursor-pointer"
+                className="text-center mx-auto cursor-pointer hover:text-green-300 duration-300 hover:rotate-90"
             />
             <CustomModal isModalOpen={isModalOpen} closeModal={closeModal}>
                 <form onSubmit={handleSubmitForm}>

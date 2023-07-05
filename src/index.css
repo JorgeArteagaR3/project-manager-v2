@@ -6,7 +6,7 @@
 
 @layer components {
     .options-list {
-        @apply absolute right-0 bg-navbarblack top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40;
+        @apply absolute right-0 dark:bg-navbarblack bg-lightnavbar top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40 overflow-hidden;
     }
     .options-item {
         @apply hover:bg-background cursor-pointer py-2;
@@ -22,7 +22,6 @@
     box-sizing: border-box;
 }
 body {
-    background: #121315;
     font-family: "Roboto", sans-serif;
     color: #8b94a3;
 }

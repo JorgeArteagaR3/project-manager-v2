@@ -11,6 +11,7 @@ const EditProject = ({
     project,
     closeModal,
     isModalOpen,
+    toggleOptions,
 }: EditProjectInterface) => {
     const [newProject, setNewProject] = useState<Project>({
         name: project.name,
@@ -33,6 +34,7 @@ const EditProject = ({
         if (newProject.name === project.name) return;
         setIsLoading(true);
         try {
+            toggleOptions();
             updateProject(project.id!, newProject).then((data) => {
                 const updatedProject: Project = data.data;
                 const filteredProjects = projects.map((oneProject) =>
@@ -46,11 +48,16 @@ const EditProject = ({
             });
         } catch (e) {
             setIsLoading(false);
+            toggleOptions();
         }
+    };
+    const handleCloseModal = () => {
+        toggleOptions();
+        closeModal();
     };
 
     return (
-        <CustomModal isModalOpen={isModalOpen} closeModal={closeModal}>
+        <CustomModal isModalOpen={isModalOpen} closeModal={handleCloseModal}>
             <form onSubmit={handleSubmitForm}>
                 <p className="text-xl font-bold text-center mb-6">
                     Edit your Project
@@ -84,7 +91,7 @@ const EditProject = ({
                 </div>
                 <div className="flex gap-4">
                     <Button type="submit">Save</Button>
-                    <Button className="bg-red-400" onClick={closeModal}>
+                    <Button className="bg-red-400" onClick={handleCloseModal}>
                         Cancel
                     </Button>
                 </div>

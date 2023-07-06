@@ -9,7 +9,7 @@
         @apply absolute right-0 dark:bg-navbarblack bg-lightnavbar top-6 w-40 rounded-lg drop-shadow-2xl text-center z-40 overflow-hidden;
     }
     .options-item {
-        @apply hover:bg-background cursor-pointer py-2;
+        @apply dark:lg:hover:bg-background lg:hover:scale-110 duration-200 cursor-pointer py-2;
     }
     .page-title {
         @apply my-6 md:my-12 font-bold md:text-2xl border-b pb-5 border-darkborder;

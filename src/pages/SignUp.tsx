@@ -44,13 +44,14 @@ export default function SignUp() {
     };
 
     return (
-        <div>
-            <Container className="mt-8 px-8 py-10 bg-transparent max-w-[550px] relative">
+        <div className="min-h-screen">
+            <Container className="px-8 py-10 bg-transparent max-w-[550px] relative ">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
                         register();
                     }}
+                    autoComplete="off"
                 >
                     <h2 className="font-bold text-3xl mb-3">
                         Get your free account
@@ -96,7 +97,9 @@ export default function SignUp() {
                     </p>
                     <Button type="submit">Sign Up</Button>
                 </form>
-                {isLoading && <SpinnerLoader />}
+                {isLoading && (
+                    <SpinnerLoader className="bg-[rgba(247,247,247,0.75)]" />
+                )}
             </Container>
         </div>
     );

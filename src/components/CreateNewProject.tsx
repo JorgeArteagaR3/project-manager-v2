@@ -39,8 +39,10 @@ const CreateNewProject = () => {
     };
 
     return (
-        <Card className="h-full flex flex-col items-center justify-center text-white">
-            <p className="mb-6 text-center">Create new Project</p>
+        <Card className="h-full flex flex-col items-center justify-center text-white min-h-[200px]">
+            <p className="mb-6 text-center text-black font-bold text-x dark:text-white">
+                Create new Project
+            </p>
             <FaPlusCircle
                 onClick={openModal}
                 size={36}

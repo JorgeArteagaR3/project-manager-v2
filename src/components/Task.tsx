@@ -27,7 +27,7 @@ export const Task = ({ task }: { task: TaskInterface }) => {
 
     return (
         <Card className="flex justify-between items-center w-full p-6 rounded-2xl relative">
-            {isLoading && <SpinnerLoader />}
+            {isLoading && <SpinnerLoader className="rounded-2xl" />}
             <div>
                 <p className="font-bold">{task.title}</p>
                 <p className="text-xs">{task.description}</p>

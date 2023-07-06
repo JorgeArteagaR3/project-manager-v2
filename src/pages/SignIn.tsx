@@ -54,6 +54,7 @@ const SignIn = () => {
                         e.preventDefault();
                         login();
                     }}
+                    autoComplete="on"
                 >
                     <h2 className="font-bold text-3xl mb-3">
                         Let's sign you in
@@ -93,7 +94,9 @@ const SignIn = () => {
                     </p>
                     <Button type="submit">Sign In</Button>
                 </form>
-                {isLoading && <SpinnerLoader />}
+                {isLoading && (
+                    <SpinnerLoader className="bg-[rgba(247,247,247,0.75)]" />
+                )}
             </Container>
         </div>
     );

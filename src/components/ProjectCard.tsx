@@ -79,7 +79,13 @@ export default function ProjectCard({ project }: { project: Project }) {
                         >
                             Delete
                         </li>
-                        <li className="options-item" onClick={openModal}>
+                        <li
+                            className="options-item"
+                            onClick={() => {
+                                handleOptions();
+                                openModal();
+                            }}
+                        >
                             Edit
                         </li>
                         <li className="options-item" onClick={handleOptions}>

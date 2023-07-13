@@ -1,5 +1,6 @@
 import { Task } from "../components/Task";
-import { TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/task";
+
 import { GoPlus } from "react-icons/go";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { CreateNewTask } from "../components/CreateNewTask";
@@ -16,7 +17,11 @@ export default function Project() {
 
     return (
         <>
-            <PageHeader searchText={searchTask} setSearchText={setSearchTask} />
+            <PageHeader
+                searchText={searchTask}
+                setSearchText={setSearchTask}
+                showSearcher={true}
+            />
             <main className="w-full pb-28 lg:pb-12 px-6 md:px-12">
                 <h2 className="page-title">Projects</h2>
                 <div className="mx-auto border border-gray-700 flex items-center gap-3 px-3 py-4 rounded-xl mb-4 relative">

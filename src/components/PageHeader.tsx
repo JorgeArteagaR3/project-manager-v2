@@ -1,5 +1,3 @@
-import jwtDecode from "jwt-decode";
-import { User } from "../types/types";
 import Cookies from "js-cookie";
 import { AiOutlineDown } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
@@ -11,15 +9,15 @@ import DarkTheme from "./DarkTheme";
 export default function PageHeader({
     searchText,
     setSearchText,
+    showSearcher,
 }: {
-    searchText: string;
-    setSearchText: (value: string) => void;
+    searchText?: string;
+    setSearchText?: (value: string) => void;
+    showSearcher: boolean;
 }) {
-    const token = Cookies.get("user");
-    const decodedUser: User = jwtDecode(token!);
     const [isShowing, setIsShowing] = useState(false);
 
-    const { setIsAuthenticated } = useContext(AuthContext);
+    const { user, setIsAuthenticated } = useContext(AuthContext);
 
     const toggleOptions = () => {
         setIsShowing(!isShowing);
@@ -34,11 +32,14 @@ export default function PageHeader({
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e
     ) => {
-        setSearchText(e.target.value);
+        setSearchText!(e.target.value);
     };
 
     return (
-        <header className="py-6 flex w-full px-6 md:px-10 dark:bg-secondary dark:bg-darkheader bg-lightheader mb-4 flex-col gap-4 items-end md:flex-row-reverse md:items-center md:justify-between">
+        <header
+            className="py-6 flex w-full px-6 md:px-10 dark:bg-secondary bg-lightheader mb-4 flex-col gap-4 items-end
+         md:flex-row-reverse md:items-center md:justify-between md:min-h-[96px]"
+        >
             <div className="flex items-center gap-2">
                 <DarkTheme />
                 <p
@@ -49,7 +50,7 @@ export default function PageHeader({
                 >
                     Welcome,
                     <span className="block first-letter:uppercase">
-                        {decodedUser.username}
+                        {user.username}
                     </span>
                 </p>
                 <div className="relative">
@@ -82,17 +83,19 @@ export default function PageHeader({
                     </ul>
                 </div>
             </div>
-            <div className="w-full relative">
-                <input
-                    type="text"
-                    placeholder="Search"
-                    className="border-none pl-11 w-full md:max-w-[400px] py-3 rounded-lg dark:bg-darksearch 
+            {showSearcher && (
+                <div className="w-full relative">
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        className="border-none pl-11 w-full md:max-w-[400px] py-3 rounded-lg dark:bg-darksearch 
                     bg-lightsearch outline-none dark:text-white text-lighttext dark:placeholder:text-darktext placeholder:text-lighttext"
-                    value={searchText}
-                    onChange={handleInputChange}
-                />
-                <BsSearch className="absolute top-0 bottom-0 my-auto left-3" />
-            </div>
+                        value={searchText}
+                        onChange={handleInputChange}
+                    />
+                    <BsSearch className="absolute top-0 bottom-0 my-auto left-3" />
+                </div>
+            )}
         </header>
     );
 }

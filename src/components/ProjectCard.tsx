@@ -1,6 +1,6 @@
 import Card from "./UI/Card";
 import { RxDotsVertical } from "react-icons/rx";
-import { Project } from "../types/types";
+import { Project } from "../types/project";
 import { useContext, useState } from "react";
 import SpinnerLoader from "./SpinnerLoader";
 import { deleteProject } from "../services/services";
@@ -9,29 +9,30 @@ import EditProject from "./EditProject";
 import CircularProgress from "./UI/CircularProgress";
 import { BsCheck } from "react-icons/bs";
 import clsx from "clsx";
-import { ProjectsContext } from "../context/ProjectsContext";
+import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { useModal } from "../hooks/useModal";
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function ProjectCard({ project }: { project: Project }) {
     const [areOptionsOpen, setAreOptionsOpen] = useState(false);
     const { isModalOpen, closeModal, openModal } = useModal();
-    const { projects, setProjects } = useContext(ProjectsContext);
+    const { removeProject } = useContext(ProjectsContext);
+    const { setIsNotificationShowing, setNotification } =
+        useContext(NotificationContext);
     const [isSpinnerLoading, setIsSpinnerLoading] = useState(false);
 
     const handleOptions = () => {
         setAreOptionsOpen(!areOptionsOpen);
     };
 
-    const handleDeleteProjects = () => {
+    const handleDeleteProjects = async () => {
         setIsSpinnerLoading(true);
-        deleteProject(project.id!).then((data) => {
-            const deletedProject: Project = data.data;
-            const filteredProjects = projects.filter(
-                (project) => project.id !== deletedProject.id
-            );
-            setProjects(filteredProjects);
-            setIsSpinnerLoading(false);
-        });
+        const data = await deleteProject(project.id!);
+        setIsNotificationShowing(true);
+        setNotification({ message: "Project deleted!", success: true });
+        const deletedProject: Project = data.data;
+        removeProject(deletedProject);
+        setIsSpinnerLoading(false);
     };
 
     const totalTasks = project.tasks?.length;
@@ -82,7 +83,6 @@ export default function ProjectCard({ project }: { project: Project }) {
                         <li
                             className="options-item"
                             onClick={() => {
-                                handleOptions();
                                 openModal();
                             }}
                         >

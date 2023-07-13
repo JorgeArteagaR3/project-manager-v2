@@ -4,7 +4,12 @@ import { AuthContextType } from "../types/types";
 const initialValue: AuthContextType = {
     isAuthenticated: false,
     setIsAuthenticated: () => {},
-    user: { exp: 0, iat: 0, id: "", username: "" },
+    user: {
+        createdAt: "",
+        email: "",
+        id: "",
+        username: "",
+    },
     setUser: () => {},
 };
 
@@ -14,7 +19,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(
         initialValue.isAuthenticated
     );
-    const [user, setUser] = useState(initialValue.user);
+    const [user, setUser] = useState<AuthContextType["user"]>(
+        initialValue.user
+    );
 
     return (
         <AuthContext.Provider

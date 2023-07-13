@@ -1,5 +1,5 @@
 import { BsCheck } from "react-icons/bs";
-import { TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/task";
 import SpinnerLoader from "./SpinnerLoader";
 import { RxDotsVertical } from "react-icons/rx";
 import EditTask from "./EditTask";

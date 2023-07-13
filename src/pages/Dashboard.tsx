@@ -3,14 +3,17 @@ import CardSkeleton from "../components/CardSkeleton";
 import PageHeader from "../components/PageHeader";
 import { useProjects } from "../hooks/useProjects";
 import ProjectsContainer from "../components/ProjectsContainer";
+import { useUser } from "../hooks/useUser";
 
 export default function Dashboard() {
     const { searchProject, setSearchProject, filteredProjects, isLoading } =
         useProjects();
+    useUser();
 
     return (
         <>
             <PageHeader
+                showSearcher={true}
                 searchText={searchProject}
                 setSearchText={setSearchProject}
             />

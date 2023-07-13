@@ -6,12 +6,15 @@ import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
 import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
+import { createUser } from "../services/services";
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function SignUp() {
     const [user, setUser] = useState({ username: "", password: "", email: "" });
     const [isLoading, setIsLoading] = useState(false);
     const { setIsAuthenticated } = useContext(AuthContext);
-    const url = "https://todo-backend-mf0a.onrender.com/";
+    const { setNotification, setIsNotificationShowing } =
+        useContext(NotificationContext);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,24 +25,29 @@ export default function SignUp() {
     const register = async () => {
         try {
             if (!user.username || !user.password || !user.email) return;
+
             setIsLoading(true);
-            const res = await fetch(`${url}user`, {
-                method: "POST",
-                body: JSON.stringify(user),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const res = await createUser(user);
             setIsLoading(false);
+
             if (!res.ok) {
-                throw new Error("API ERROR");
+                throw new Error("Username or Email already taken");
             }
-            const data = await res.json();
-            Cookies.set("user", data.token, { expires: 7 });
+            const { token, message } = await res.json();
+
+            setIsNotificationShowing(true);
+            setNotification({ message, success: true });
+            Cookies.set("user", token, { expires: 7 });
             setIsAuthenticated(true);
+
             navigate("/dashboard");
         } catch (e) {
-            console.error(e);
+            if (e instanceof Error) {
+                setNotification({ success: false, message: e.message });
+                setIsNotificationShowing(true);
+            } else {
+                console.log("Unknown error:", e);
+            }
         }
     };
 

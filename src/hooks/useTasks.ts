@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "../context/TasksContext/TasksContext";
 import { getProjectById } from "../services/services";
-import { TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/task";
 
 export const useTasks = () => {
     const { id } = useParams();
     const [isLoading, setIsLoading] = useState(false);
-    const { tasks, setTasks } = useContext(TasksContext);
+    const { tasks, saveTasks } = useContext(TasksContext);
     const [searchTask, setSearchTask] = useState("");
 
     useEffect(() => {
@@ -21,13 +21,9 @@ export const useTasks = () => {
             setIsLoading(false);
             return;
         }
-        let sortedTasks: TaskInterface[] = data.data.tasks;
-        sortedTasks.sort(
-            (a, b) =>
-                new Date(a.createdAt!).getTime() -
-                new Date(b.createdAt!).getTime()
-        );
-        setTasks(sortedTasks);
+        console.log(data);
+        const tasks: TaskInterface[] = data.data.tasks;
+        saveTasks(tasks);
         setIsLoading(false);
     };
 

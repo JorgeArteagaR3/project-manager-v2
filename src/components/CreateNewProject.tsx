@@ -4,11 +4,12 @@ import { FaPlusCircle } from "react-icons/fa";
 import { FormEventHandler, useContext, useState } from "react";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { Project } from "../types/types";
+import { Project } from "../types/project";
 import { createProject } from "../services/services";
 import SpinnerLoader from "./SpinnerLoader";
-import { ProjectsContext } from "../context/ProjectsContext";
+import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { useModal } from "../hooks/useModal";
+import { NotificationContext } from "../context/NotificationContext";
 
 const CreateNewProject = () => {
     const { closeModal, isModalOpen, openModal } = useModal();
@@ -17,8 +18,9 @@ const CreateNewProject = () => {
         description: "",
     });
     const [isLoading, setIsLoading] = useState(false);
-
-    const { setProjects } = useContext(ProjectsContext);
+    const { addProject } = useContext(ProjectsContext);
+    const { setIsNotificationShowing, setNotification } =
+        useContext(NotificationContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e
@@ -26,16 +28,19 @@ const CreateNewProject = () => {
         setNewProject({ ...newProject, [e.target.name]: e.target.value });
     };
 
-    const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
+    const handleSubmitForm: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
         if (newProject.name.length <= 8) return;
+
         setIsLoading(true);
-        createProject(newProject).then((data) => {
-            setNewProject({ name: "", description: "" });
-            setProjects((prev) => [...prev, data.data]);
-            setIsLoading(false);
-            closeModal();
-        });
+        const data = await createProject(newProject);
+
+        setIsNotificationShowing(true);
+        setNotification({ message: "Project created!", success: true });
+        setNewProject({ name: "", description: "" });
+        addProject(data.data);
+        setIsLoading(false);
+        closeModal();
     };
 
     return (

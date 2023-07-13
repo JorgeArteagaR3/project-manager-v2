@@ -1,11 +1,12 @@
-import { TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/task";
 import CustomModal from "./UI/CustomModal";
 import { useState, useContext } from "react";
 import SpinnerLoader from "./SpinnerLoader";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { updateTask } from "../services/services";
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "../context/TasksContext/TasksContext";
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function EditTask({
     task,
@@ -22,21 +23,31 @@ export default function EditTask({
     });
     const [isFormLoading, setIsFormLoading] = useState(false);
     const { tasks, setTasks } = useContext(TasksContext);
+    const { setNotification, setIsNotificationShowing } =
+        useContext(NotificationContext);
 
-    const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (
+        e
+    ) => {
         e.preventDefault();
         if (task.title === newTask.title) return;
         setIsFormLoading(true);
-        updateTask(task.id!, newTask).then((data) => {
-            let updatedTask: TaskInterface = data.data;
 
-            let newTasks = tasks.map((task) =>
-                task.id === updatedTask.id ? updatedTask : task
-            );
-            setTasks(newTasks);
-            setIsFormLoading(false);
-            closeModal();
+        const data = await updateTask(task.id!, newTask);
+        setIsNotificationShowing(true);
+        setNotification({
+            message: "Task edited!",
+            success: true,
         });
+
+        const updatedTask: TaskInterface = data.data;
+
+        const newTasks = tasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+        );
+        setTasks(newTasks);
+        setIsFormLoading(false);
+        closeModal();
     };
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e

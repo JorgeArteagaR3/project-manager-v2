@@ -6,18 +6,18 @@ import Cookies from "js-cookie";
 import SpinnerLoader from "../components/SpinnerLoader";
 import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
+import { NotificationContext } from "../context/NotificationContext";
+import { userLogin } from "../services/services";
 
 const SignIn = () => {
     const [userInput, setUserInput] = useState({ username: "", password: "" });
     const [isLoading, setIsLoading] = useState(false);
-
-    const url = "https://todo-backend-mf0a.onrender.com/";
-
+    const { setIsAuthenticated } = useContext(AuthContext);
+    const { setIsNotificationShowing, setNotification } =
+        useContext(NotificationContext);
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
-
-    const { setIsAuthenticated } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -25,24 +25,32 @@ const SignIn = () => {
         try {
             if (userInput.username && userInput.password) {
                 setIsLoading(true);
-                const res = await fetch(`${url}signin`, {
-                    method: "POST",
-                    body: JSON.stringify(userInput),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+
+                const res = await userLogin(userInput);
+
                 setIsLoading(false);
+
                 if (!res.ok) {
-                    throw new Error("API ERROR");
+                    const { message } = await res.json();
+                    throw new Error(message);
                 }
-                const data = await res.json();
-                Cookies.set("user", data.token);
+                const { message, token } = await res.json();
+
+                setNotification({ success: true, message });
+                setIsNotificationShowing(true);
+
+                Cookies.set("user", token);
                 setIsAuthenticated(true);
+
                 navigate("/dashboard");
             }
-        } catch (e) {
-            console.error(e);
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                setNotification({ success: false, message: e.message });
+                setIsNotificationShowing(true);
+            } else {
+                console.log("Unknown error:", e);
+            }
         }
     };
 
@@ -70,6 +78,7 @@ const SignIn = () => {
                             name="username"
                             value={userInput.username}
                             onChange={handleInputChange}
+                            key={"signinusername"}
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-10">
@@ -83,6 +92,7 @@ const SignIn = () => {
                             value={userInput.password}
                             onChange={handleInputChange}
                             autoComplete="on"
+                            key={"signinpassword"}
                         />
                     </div>
                     <p className="mb-6 text-center">

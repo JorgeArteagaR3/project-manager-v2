@@ -3,15 +3,18 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { CiUser } from "react-icons/ci";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-
-const navlinks = [
-    { path: "/dashboard", Icon: LuLayoutDashboard, name: "Dashboard" },
-    { path: "/profile", Icon: CiUser, name: "Profile" },
-    { path: "/settings", Icon: AiOutlineSetting, name: "Settings" },
-];
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
     const location = useLocation();
+    const { user } = useContext(AuthContext);
+
+    const navlinks = [
+        { path: "/dashboard", Icon: LuLayoutDashboard, name: "Dashboard" },
+        { path: `/profile/${user.id}`, Icon: CiUser, name: "Profile" },
+        { path: "/settings", Icon: AiOutlineSetting, name: "Settings" },
+    ];
     return (
         <nav
             className="fixed z-30 w-full h-20 bottom-0 grid grid-cols-3 place-items-center dark:bg-navbarblack bg-lightnavbar text-center

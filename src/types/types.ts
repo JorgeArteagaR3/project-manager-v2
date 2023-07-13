@@ -1,35 +1,16 @@
 export interface User {
-    exp: number;
-    iat: number;
+    createdAt: string;
+    email: string;
     id: string;
     username: string;
+    password: string;
 }
 
 export interface AuthContextType {
     isAuthenticated: boolean;
     setIsAuthenticated: (value: React.SetStateAction<boolean>) => void;
-    user: User | undefined;
-    setUser: (value: React.SetStateAction<User | undefined>) => void;
-}
-
-export interface TaskInterface {
-    createdAt?: string;
-    description?: string;
-    id?: string;
-    projectId?: string;
-    status?: string;
-    title?: string;
-    updatedAt?: string;
-}
-
-export interface Project {
-    id?: string;
-    name: string;
-    description?: string;
-    createdAt?: string;
-    updatedAt?: string;
-    belongsToId?: string;
-    tasks?: TaskInterface[];
+    user: User;
+    setUser: (value: React.SetStateAction<User>) => void;
 }
 
 export interface ModalInterface {
@@ -37,16 +18,22 @@ export interface ModalInterface {
     closeModal: () => void;
 }
 
-export interface TaskContextInterface {
-    tasks: TaskInterface[];
-    setTasks: (value: React.SetStateAction<TaskInterface[]>) => void;
+export interface NewEmail {
+    password: string;
+    email: string;
+}
+export interface NewPassword {
+    password: string;
+    newpassword: string;
+}
+export interface INotification {
+    message: string;
+    success: boolean;
 }
 
-export interface ProjectsContextInterface {
-    projects: Project[];
-    setProjects: (value: React.SetStateAction<Project[]>) => void;
-}
-export interface EditProjectInterface extends ModalInterface {
-    project: Project;
-    toggleOptions: () => void;
+export interface NotificationContextInterface {
+    notification: INotification;
+    setNotification: (value: React.SetStateAction<INotification>) => void;
+    isNotificationShowing: boolean;
+    setIsNotificationShowing: (value: React.SetStateAction<boolean>) => void;
 }

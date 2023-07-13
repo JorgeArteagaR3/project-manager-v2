@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "../context/TasksContext/TasksContext";
 import { deleteTask, updateTask } from "../services/services";
-import { TaskInterface } from "../types/types";
+import { TaskInterface } from "../types/task";
+import { NotificationContext } from "../context/NotificationContext";
 
 export const useTask = (task: TaskInterface) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -9,7 +10,8 @@ export const useTask = (task: TaskInterface) => {
     const [areOptionsLoading, setAreOptionsLoading] = useState(false);
 
     const { tasks, setTasks } = useContext(TasksContext);
-
+    const { setIsNotificationShowing, setNotification } =
+        useContext(NotificationContext);
     const toggleOptions = () => {
         setAreOptionsOpen(!areOptionsOpen);
     };
@@ -37,14 +39,22 @@ export const useTask = (task: TaskInterface) => {
     const removeTask = async () => {
         setAreOptionsLoading(true);
         const data = await deleteTask(task.id!);
+        setIsNotificationShowing(true);
+        setNotification({
+            message: "Task deleted!",
+            success: true,
+        });
+
         const deletedTask: TaskInterface = data.data;
         if (!deleteTask) {
             setAreOptionsLoading(false);
             return;
         }
-        let filteredTasks: TaskInterface[] = tasks.filter(
+
+        const filteredTasks: TaskInterface[] = tasks.filter(
             (oneTask) => oneTask.id !== deletedTask.id
         );
+
         setTasks(filteredTasks);
         setAreOptionsLoading(false);
     };

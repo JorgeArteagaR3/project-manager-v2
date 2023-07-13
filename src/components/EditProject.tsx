@@ -2,11 +2,12 @@ import CustomModal from "./UI/CustomModal";
 import { FormEventHandler, useContext, useState } from "react";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { EditProjectInterface, Project } from "../types/types";
+import { EditProjectInterface } from "../types/project";
 import SpinnerLoader from "./SpinnerLoader";
-import { updateProject } from "../services/services";
-import { ProjectsContext } from "../context/ProjectsContext";
-
+import { updateProject as UpdateProjectService } from "../services/services";
+import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
+import { NotificationContext } from "../context/NotificationContext";
+import { Project } from "../types/project";
 const EditProject = ({
     project,
     closeModal,
@@ -18,8 +19,9 @@ const EditProject = ({
         description: project.description,
     });
     const [isLoading, setIsLoading] = useState(false);
-
-    const { projects, setProjects } = useContext(ProjectsContext);
+    const { setNotification, setIsNotificationShowing } =
+        useContext(NotificationContext);
+    const { updateProject } = useContext(ProjectsContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e
@@ -27,25 +29,23 @@ const EditProject = ({
         setNewProject({ ...newProject, [e.target.name]: e.target.value });
     };
 
-    const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
+    const handleSubmitForm: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
 
-        if (newProject.name.length <= 8) return;
+        if (newProject.name.length <= 6) return;
         if (newProject.name === project.name) return;
         setIsLoading(true);
         try {
             toggleOptions();
-            updateProject(project.id!, newProject).then((data) => {
-                const updatedProject: Project = data.data;
-                const filteredProjects = projects.map((oneProject) =>
-                    oneProject.id === updatedProject.id
-                        ? updatedProject
-                        : oneProject
-                );
-                setProjects(filteredProjects);
-                setIsLoading(false);
-                closeModal();
-            });
+            const data = await UpdateProjectService(project.id!, newProject);
+
+            setIsNotificationShowing(true);
+            setNotification({ message: "Project updated!", success: true });
+
+            const updatedProject: Project = data.data;
+            updateProject(updatedProject);
+            setIsLoading(false);
+            closeModal();
         } catch (e) {
             setIsLoading(false);
             toggleOptions();

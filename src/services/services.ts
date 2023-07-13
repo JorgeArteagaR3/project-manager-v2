@@ -1,5 +1,11 @@
 import Cookies from "js-cookie";
-import { Project, TaskInterface } from "../types/types";
+import {
+    NewEmail,
+    NewPassword,
+    Project,
+    TaskInterface,
+    User,
+} from "../types/types";
 
 const url = "https://todo-backend-mf0a.onrender.com/api";
 
@@ -135,4 +141,72 @@ export const deleteTask = async (id: string) => {
         throw new Error("API ERROR");
     }
     return res.json();
+};
+
+//User
+
+export const getUser = async (): Promise<{ data: User }> => {
+    const token = Cookies.get("user");
+
+    const res = await fetch(`${url}/user`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error("Api Error");
+    }
+    return res.json();
+};
+
+export const updateUser = async (id: string, data: NewEmail | NewPassword) => {
+    const token = Cookies.get("user");
+
+    const res = await fetch(`${url}/user/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error("API ERROR");
+    }
+    return res.json();
+};
+
+export const userLogin = async (data: {
+    username: string;
+    password: string;
+}) => {
+    const res = await fetch("https://todo-backend-mf0a.onrender.com/signin", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    return res;
+};
+
+export const createUser = async (newuser: {
+    username: string;
+    email: string;
+    password: string;
+}) => {
+    const registerurl = "https://todo-backend-mf0a.onrender.com/user";
+
+    const res = await fetch(registerurl, {
+        method: "POST",
+        body: JSON.stringify(newuser),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    return res;
 };

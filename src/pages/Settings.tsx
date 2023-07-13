@@ -5,6 +5,7 @@ import { LuMoonStar } from "react-icons/lu";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { FiSun } from "react-icons/fi";
 import Button from "../components/UI/Button";
+import PageHeader from "../components/PageHeader";
 
 export default function Settings() {
     const { handleDarkTheme, handleSystemTheme, handleLightTheme, theme } =

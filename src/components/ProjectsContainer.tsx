@@ -1,4 +1,4 @@
-import { Project } from "../types/types";
+import { Project } from "../types/project";
 import ProjectCard from "./ProjectCard";
 import Container from "./UI/Container";
 import CreateNewProject from "./CreateNewProject";

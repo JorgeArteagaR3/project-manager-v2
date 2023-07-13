@@ -1,12 +1,14 @@
 import CustomModal from "./UI/CustomModal";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { ModalInterface, TaskInterface } from "../types/types";
+import { ModalInterface } from "../types/types";
 import SpinnerLoader from "./SpinnerLoader";
 import { useState, useContext } from "react";
 import { createTask } from "../services/services";
 import { useParams } from "react-router-dom";
-import { TasksContext } from "../context/TasksContext";
+import { TasksContext } from "../context/TasksContext/TasksContext";
+import { NotificationContext } from "../context/NotificationContext";
+import { TaskInterface } from "../types/task";
 
 export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     const [newTask, setNewTask] = useState<TaskInterface>({
@@ -15,7 +17,9 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     });
     const [isFormLoading, setIsFormLoading] = useState(false);
     const { id } = useParams();
-    const { setTasks, tasks } = useContext(TasksContext);
+    const { addTask } = useContext(TasksContext);
+    const { setIsNotificationShowing, setNotification } =
+        useContext(NotificationContext);
 
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
         e
@@ -23,17 +27,24 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
         setNewTask({ ...newTask, [e.target.name]: e.target.value });
     };
 
-    const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (
+        e
+    ) => {
         e.preventDefault();
-        if (!newTask.title?.length || newTask.title.length <= 8) return;
+        if (!newTask.title?.length || newTask.title.length <= 6) return;
         setIsFormLoading(true);
-        createTask(id!, newTask).then((data) => {
-            const createdTask: TaskInterface = data.data;
-            setIsFormLoading(false);
-            setTasks([...tasks, createdTask]);
-            closeModal();
-            setNewTask({ title: "", description: "" });
+        const data = await createTask(id!, newTask);
+        setIsNotificationShowing(true);
+        setNotification({
+            message: "Task created!",
+            success: true,
         });
+        const createdTask: TaskInterface = data.data;
+        addTask(createdTask);
+
+        setIsFormLoading(false);
+        closeModal();
+        setNewTask({ title: "", description: "" });
     };
 
     return (

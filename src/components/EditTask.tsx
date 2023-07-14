@@ -1,12 +1,12 @@
 import { TaskInterface } from "../types/task";
 import CustomModal from "./UI/CustomModal";
 import { useState, useContext } from "react";
-import SpinnerLoader from "./SpinnerLoader";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
-import { updateTask } from "../services/services";
+import { updateTask as updateTaskService } from "../services/services";
 import { TasksContext } from "../context/TasksContext/TasksContext";
 import { NotificationContext } from "../context/NotificationContext";
+import { useSpinnerLoader } from "../hooks/useSpinnerLoader";
 
 export default function EditTask({
     task,
@@ -21,8 +21,12 @@ export default function EditTask({
         title: task.title,
         description: task.description,
     });
-    const [isFormLoading, setIsFormLoading] = useState(false);
-    const { tasks, setTasks } = useContext(TasksContext);
+
+    const { SpinnerLoader, isSpinnerLoading, setIsSpinnerLoading } =
+        useSpinnerLoader();
+
+    const { updateTask } = useContext(TasksContext);
+
     const { setNotification, setIsNotificationShowing } =
         useContext(NotificationContext);
 
@@ -30,10 +34,14 @@ export default function EditTask({
         e
     ) => {
         e.preventDefault();
-        if (task.title === newTask.title) return;
-        setIsFormLoading(true);
+        if (
+            newTask.title === task.title &&
+            newTask.description === task.description
+        )
+            return;
+        setIsSpinnerLoading(true);
 
-        const data = await updateTask(task.id!, newTask);
+        const data = await updateTaskService(task.id!, newTask);
         setIsNotificationShowing(true);
         setNotification({
             message: "Task edited!",
@@ -41,12 +49,9 @@ export default function EditTask({
         });
 
         const updatedTask: TaskInterface = data.data;
+        updateTask(updatedTask);
 
-        const newTasks = tasks.map((task) =>
-            task.id === updatedTask.id ? updatedTask : task
-        );
-        setTasks(newTasks);
-        setIsFormLoading(false);
+        setIsSpinnerLoading(false);
         closeModal();
     };
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -95,7 +100,7 @@ export default function EditTask({
                     </Button>
                 </div>
             </form>
-            {isFormLoading && <SpinnerLoader />}
+            {isSpinnerLoading && <SpinnerLoader />}
         </CustomModal>
     );
 }

@@ -2,20 +2,21 @@ import CustomModal from "./UI/CustomModal";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { ModalInterface } from "../types/types";
-import SpinnerLoader from "./SpinnerLoader";
 import { useState, useContext } from "react";
 import { createTask } from "../services/services";
 import { useParams } from "react-router-dom";
 import { TasksContext } from "../context/TasksContext/TasksContext";
 import { NotificationContext } from "../context/NotificationContext";
 import { TaskInterface } from "../types/task";
+import { useSpinnerLoader } from "../hooks/useSpinnerLoader";
 
 export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     const [newTask, setNewTask] = useState<TaskInterface>({
         title: "",
         description: "",
     });
-    const [isFormLoading, setIsFormLoading] = useState(false);
+    const { SpinnerLoader, isSpinnerLoading, setIsSpinnerLoading } =
+        useSpinnerLoader();
     const { id } = useParams();
     const { addTask } = useContext(TasksContext);
     const { setIsNotificationShowing, setNotification } =
@@ -32,7 +33,7 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
     ) => {
         e.preventDefault();
         if (!newTask.title?.length || newTask.title.length <= 6) return;
-        setIsFormLoading(true);
+        setIsSpinnerLoading(true);
         const data = await createTask(id!, newTask);
         setIsNotificationShowing(true);
         setNotification({
@@ -42,7 +43,7 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
         const createdTask: TaskInterface = data.data;
         addTask(createdTask);
 
-        setIsFormLoading(false);
+        setIsSpinnerLoading(false);
         closeModal();
         setNewTask({ title: "", description: "" });
     };
@@ -85,7 +86,7 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
                     </Button>
                 </div>
             </form>
-            {isFormLoading && <SpinnerLoader />}
+            {isSpinnerLoading && <SpinnerLoader />}
         </CustomModal>
     );
 };

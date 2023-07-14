@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext, useState } from "react";
 import clsx from "clsx";
 import DarkTheme from "./DarkTheme";
+import { useSpinnerLoader } from "../hooks/useSpinnerLoader";
 
 export default function PageHeader({
     searchText,
@@ -16,7 +17,7 @@ export default function PageHeader({
     showSearcher: boolean;
 }) {
     const [isShowing, setIsShowing] = useState(false);
-
+    const { SpinnerLoader } = useSpinnerLoader();
     const { user, setIsAuthenticated } = useContext(AuthContext);
 
     const toggleOptions = () => {
@@ -38,7 +39,7 @@ export default function PageHeader({
     return (
         <header
             className="py-6 flex w-full px-6 md:px-10 dark:bg-secondary bg-lightheader mb-4 flex-col gap-4 items-end
-         md:flex-row-reverse md:items-center md:justify-between md:min-h-[96px]"
+         md:flex-row-reverse md:items-center md:justify-between md:min-h-[96px] relative"
         >
             <div className="flex items-center gap-2">
                 <DarkTheme />
@@ -68,17 +69,21 @@ export default function PageHeader({
                             !isShowing && "opacity-0 invisible"
                         )}
                     >
-                        <li
-                            onClick={handleSignOut}
-                            className="cursor-pointer options-item text-red-400"
-                        >
-                            Sign Out
+                        <li>
+                            <button
+                                onClick={handleSignOut}
+                                className="cursor-pointer options-item text-red-400"
+                            >
+                                Sign Out
+                            </button>
                         </li>
-                        <li
-                            className="cursor-pointer options-item"
-                            onClick={toggleOptions}
-                        >
-                            Close
+                        <li>
+                            <button
+                                className="cursor-pointer options-item"
+                                onClick={toggleOptions}
+                            >
+                                Close
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -96,6 +101,7 @@ export default function PageHeader({
                     <BsSearch className="absolute top-0 bottom-0 my-auto left-3" />
                 </div>
             )}
+            {!user.id && <SpinnerLoader />}
         </header>
     );
 }

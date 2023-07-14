@@ -9,6 +9,7 @@ const initialValue: AuthContextType = {
         email: "",
         id: "",
         username: "",
+        password: "",
     },
     setUser: () => {},
 };

@@ -11,7 +11,7 @@ import Settings from "./pages/Settings";
 import Layout from "./pages/Layout";
 import { useDocumentTitle } from "./hooks/useDocumentTitle";
 import { useDarkTheme } from "./hooks/useDarkTheme";
-import { useUser } from "./hooks/useUser";
+
 const PrivateRoutes = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const token = Cookies.get("user");

@@ -14,7 +14,6 @@ export const useProjects = () => {
     }, []);
 
     const getAllProjects = async () => {
-        if (projects.length) return;
         setIsLoading(true);
         const data = await getProjects();
         if (!data) {

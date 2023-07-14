@@ -3,11 +3,11 @@ import { FormEventHandler, useContext, useState } from "react";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { EditProjectInterface } from "../types/project";
-import SpinnerLoader from "./SpinnerLoader";
 import { updateProject as UpdateProjectService } from "../services/services";
 import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { NotificationContext } from "../context/NotificationContext";
 import { Project } from "../types/project";
+import { useSpinnerLoader } from "../hooks/useSpinnerLoader";
 const EditProject = ({
     project,
     closeModal,
@@ -18,7 +18,8 @@ const EditProject = ({
         name: project.name,
         description: project.description,
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const { SpinnerLoader, isSpinnerLoading, setIsSpinnerLoading } =
+        useSpinnerLoader();
     const { setNotification, setIsNotificationShowing } =
         useContext(NotificationContext);
     const { updateProject } = useContext(ProjectsContext);
@@ -33,8 +34,12 @@ const EditProject = ({
         e.preventDefault();
 
         if (newProject.name.length <= 6) return;
-        if (newProject.name === project.name) return;
-        setIsLoading(true);
+        if (
+            newProject.name === project.name &&
+            newProject.description === project.description
+        )
+            return;
+        setIsSpinnerLoading(true);
         try {
             toggleOptions();
             const data = await UpdateProjectService(project.id!, newProject);
@@ -44,10 +49,10 @@ const EditProject = ({
 
             const updatedProject: Project = data.data;
             updateProject(updatedProject);
-            setIsLoading(false);
+            setIsSpinnerLoading(false);
             closeModal();
         } catch (e) {
-            setIsLoading(false);
+            setIsSpinnerLoading(false);
             toggleOptions();
         }
     };
@@ -96,7 +101,7 @@ const EditProject = ({
                     </Button>
                 </div>
             </form>
-            {isLoading && <SpinnerLoader />}
+            {isSpinnerLoading && <SpinnerLoader />}
         </CustomModal>
     );
 };

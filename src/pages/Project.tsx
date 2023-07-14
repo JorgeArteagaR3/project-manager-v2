@@ -22,7 +22,7 @@ export default function Project() {
                 setSearchText={setSearchTask}
                 showSearcher={true}
             />
-            <main className="w-full pb-28 lg:pb-12 px-6 md:px-12">
+            <main className="w-full pb-28 px-6 md:px-12">
                 <h2 className="page-title">Projects</h2>
                 <div className="mx-auto border border-gray-700 flex items-center gap-3 px-3 py-4 rounded-xl mb-4 relative">
                     <div

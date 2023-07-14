@@ -11,4 +11,6 @@ export interface TaskContextInterface {
     tasks: TaskInterface[];
     saveTasks: (value: TaskInterface[]) => void;
     addTask: (value: TaskInterface) => void;
+    removeTask: (value: TaskInterface) => void;
+    updateTask: (value: TaskInterface) => void;
 }

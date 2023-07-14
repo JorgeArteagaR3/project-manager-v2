@@ -1,44 +1,39 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { TasksContext } from "../context/TasksContext/TasksContext";
-import { deleteTask, updateTask } from "../services/services";
+import {
+    deleteTask as deleteTaskService,
+    updateTask as updateTaskService,
+} from "../services/services";
 import { TaskInterface } from "../types/task";
 import { NotificationContext } from "../context/NotificationContext";
+import { useSpinnerLoader } from "./useSpinnerLoader";
 
 export const useTask = (task: TaskInterface) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [areOptionsOpen, setAreOptionsOpen] = useState(false);
-    const [areOptionsLoading, setAreOptionsLoading] = useState(false);
+    const { SpinnerLoader, isSpinnerLoading, setIsSpinnerLoading } =
+        useSpinnerLoader();
 
-    const { tasks, setTasks } = useContext(TasksContext);
+    const { updateTask, removeTask } = useContext(TasksContext);
+
     const { setIsNotificationShowing, setNotification } =
         useContext(NotificationContext);
-    const toggleOptions = () => {
-        setAreOptionsOpen(!areOptionsOpen);
-    };
 
     const handleUpdateTask: React.ChangeEventHandler<HTMLInputElement> = (
         e
     ) => {
         e.preventDefault();
-        setIsLoading(true);
-        updateTask(task.id!, {
+        setIsSpinnerLoading(true);
+        updateTaskService(task.id!, {
             status: e.target.checked ? "COMPLETED" : "IN_PROGRESS",
         }).then((data) => {
-            let updatedTask: TaskInterface = data.data;
+            const updatedTask: TaskInterface = data.data;
 
-            let newTasks = tasks.map((task) =>
-                task.id === updatedTask.id
-                    ? { ...task, status: updatedTask.status }
-                    : task
-            );
-            setTasks(newTasks);
-            setIsLoading(false);
+            updateTask(updatedTask);
+            setIsSpinnerLoading(false);
         });
     };
 
-    const removeTask = async () => {
-        setAreOptionsLoading(true);
-        const data = await deleteTask(task.id!);
+    const deleteTask = async () => {
+        const data = await deleteTaskService(task.id!);
         setIsNotificationShowing(true);
         setNotification({
             message: "Task deleted!",
@@ -46,28 +41,20 @@ export const useTask = (task: TaskInterface) => {
         });
 
         const deletedTask: TaskInterface = data.data;
-        if (!deleteTask) {
-            setAreOptionsLoading(false);
+        if (!deletedTask) {
             return;
         }
 
-        const filteredTasks: TaskInterface[] = tasks.filter(
-            (oneTask) => oneTask.id !== deletedTask.id
-        );
-
-        setTasks(filteredTasks);
-        setAreOptionsLoading(false);
+        removeTask(deletedTask);
     };
 
     const isCompleted = task.status === "COMPLETED" ? true : false;
 
     return {
-        toggleOptions,
         isCompleted,
-        removeTask,
+        deleteTask,
         handleUpdateTask,
-        isLoading,
-        areOptionsLoading,
-        areOptionsOpen,
+        isSpinnerLoading,
+        SpinnerLoader,
     };
 };

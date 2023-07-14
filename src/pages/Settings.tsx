@@ -4,8 +4,8 @@ import { DarkThemeContext } from "../context/DarkThemeContext";
 import { LuMoonStar } from "react-icons/lu";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { FiSun } from "react-icons/fi";
-import Button from "../components/UI/Button";
-import PageHeader from "../components/PageHeader";
+
+import { Link } from "react-router-dom";
 
 export default function Settings() {
     const { handleDarkTheme, handleSystemTheme, handleLightTheme, theme } =
@@ -14,7 +14,7 @@ export default function Settings() {
         <main className="w-full pb-28 lg:pb-12 px-6 md:px-12">
             <h2 className="page-title">Settings</h2>
             <div>
-                <div className="border-b mb-4">
+                <div className="border-b mb-4 pb-2">
                     <h3 className="">Dark Mode:</h3>
                     <ul
                         className={clsx(
@@ -66,9 +66,9 @@ export default function Settings() {
                     </ul>
                 </div>
                 <div className="text-center">
-                    <Button className="max-w-[500px]">
+                    <Link className="max-w-[500px]" to={"/dashboard"}>
                         Return to Dashboard
-                    </Button>
+                    </Link>
                 </div>
             </div>
         </main>

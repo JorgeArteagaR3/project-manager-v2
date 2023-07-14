@@ -1,33 +1,25 @@
 import { BsCheck } from "react-icons/bs";
 import { TaskInterface } from "../types/task";
-import SpinnerLoader from "./SpinnerLoader";
-import { RxDotsVertical } from "react-icons/rx";
 import EditTask from "./EditTask";
-import clsx from "clsx";
 import { useModal } from "../hooks/useModal";
 import { useTask } from "../hooks/useTask";
 import Card from "./UI/Card";
+import OptionsDropdown from "./OptionsDropdown";
 
 export const Task = ({ task }: { task: TaskInterface }) => {
     const { isModalOpen, closeModal, openModal } = useModal();
-    const {
-        areOptionsLoading,
-        isCompleted,
-        isLoading,
-        handleUpdateTask,
-        toggleOptions,
-        removeTask,
-        areOptionsOpen,
-    } = useTask(task);
 
-    const handleEdit = () => {
-        openModal();
-        toggleOptions();
-    };
+    const {
+        isCompleted,
+        isSpinnerLoading,
+        handleUpdateTask,
+        deleteTask,
+        SpinnerLoader,
+    } = useTask(task);
 
     return (
         <Card className="flex justify-between items-center w-full p-6 rounded-2xl relative">
-            {isLoading && <SpinnerLoader className="rounded-2xl" />}
+            {isSpinnerLoading && <SpinnerLoader className="rounded-2xl" />}
             <div>
                 <p className="font-bold">{task.title}</p>
                 <p className="text-xs">{task.description}</p>
@@ -48,35 +40,11 @@ export const Task = ({ task }: { task: TaskInterface }) => {
                         />
                     )}
                 </div>
-                <div className="relative ml-2 md:ml-4 lg:ml-6">
-                    <RxDotsVertical
-                        className="cursor-pointer justify-self-end "
-                        onClick={toggleOptions}
-                    />
-                    <ul
-                        className={clsx(
-                            "options-list visible opacity-1 duration-300",
-                            !areOptionsOpen && "invisible opacity-0"
-                        )}
-                    >
-                        <li
-                            className="options-item py-2 text-red-400 rounded-t-lg"
-                            onClick={removeTask}
-                        >
-                            Delete
-                        </li>
-                        <li className="options-item py-2" onClick={handleEdit}>
-                            Edit
-                        </li>
-                        <li
-                            className="options-item py-2 rounded-b-lg"
-                            onClick={toggleOptions}
-                        >
-                            Cancel
-                        </li>
-                        {areOptionsLoading && <SpinnerLoader />}
-                    </ul>
-                </div>
+                <OptionsDropdown
+                    onDelete={deleteTask}
+                    onEdit={openModal}
+                    className="ml-2 md:ml-4 lg:ml-6"
+                />
             </div>
             <EditTask
                 isEditModalOpen={isModalOpen}

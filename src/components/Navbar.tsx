@@ -18,7 +18,7 @@ export default function Navbar() {
     return (
         <nav
             className="fixed z-30 w-full h-20 bottom-0 grid grid-cols-3 place-items-center dark:bg-navbarblack bg-lightnavbar text-center
-         lg:grid-cols-1 lg:w-72 lg:static lg:h-full lg:text-xl lg:fixed lg:px-6"
+         lg:grid-cols-1 lg:w-72 lg:h-full lg:text-xl lg:fixed lg:px-6"
         >
             <Link
                 to={"/"}

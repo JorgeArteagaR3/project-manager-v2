@@ -21,7 +21,7 @@ export default function Notification() {
     return (
         <div
             className={clsx(
-                "h-16 mr-6 mt-10 md:mr-14 md:mt-14 text-white px-4 rounded-md  absolute top-0 z-50 right-0 duration-300",
+                "h-16 mr-6 mt-10 md:mr-14 md:mt-14 text-white px-4 rounded-md fixed top-0 z-50 right-0 duration-300",
                 notification.success ? "bg-green-200" : "bg-red-200"
             )}
         >

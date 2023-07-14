@@ -1,48 +1,30 @@
 import Card from "./UI/Card";
 import { RxDotsVertical } from "react-icons/rx";
 import { Project } from "../types/project";
-import { useContext, useState } from "react";
-import SpinnerLoader from "./SpinnerLoader";
-import { deleteProject } from "../services/services";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import EditProject from "./EditProject";
 import CircularProgress from "./UI/CircularProgress";
 import { BsCheck } from "react-icons/bs";
 import clsx from "clsx";
-import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { useModal } from "../hooks/useModal";
-import { NotificationContext } from "../context/NotificationContext";
+import { useProject } from "../hooks/useProject";
+import OptionsDropdown from "./OptionsDropdown";
 
 export default function ProjectCard({ project }: { project: Project }) {
-    const [areOptionsOpen, setAreOptionsOpen] = useState(false);
     const { isModalOpen, closeModal, openModal } = useModal();
-    const { removeProject } = useContext(ProjectsContext);
-    const { setIsNotificationShowing, setNotification } =
-        useContext(NotificationContext);
-    const [isSpinnerLoading, setIsSpinnerLoading] = useState(false);
-
+    const [areOptionsOpen, setAreOptionsOpen] = useState(false);
     const handleOptions = () => {
         setAreOptionsOpen(!areOptionsOpen);
     };
 
-    const handleDeleteProjects = async () => {
-        setIsSpinnerLoading(true);
-        const data = await deleteProject(project.id!);
-        setIsNotificationShowing(true);
-        setNotification({ message: "Project deleted!", success: true });
-        const deletedProject: Project = data.data;
-        removeProject(deletedProject);
-        setIsSpinnerLoading(false);
-    };
-
-    const totalTasks = project.tasks?.length;
-    const completedTasks = project.tasks?.filter(
-        (task) => task.status === "COMPLETED"
-    ).length;
-
-    const percentage = totalTasks ? (completedTasks! / totalTasks!) * 100 : 0;
-
-    const allTasksAreCompleted = percentage === 100;
+    const {
+        allTasksAreCompleted,
+        completedTasks,
+        totalTasks,
+        handleDeleteProjects,
+        percentage,
+    } = useProject({ project });
 
     return (
         <Card className="relative">
@@ -60,40 +42,10 @@ export default function ProjectCard({ project }: { project: Project }) {
                         ? "On Going"
                         : "Completed"}
                 </div>
-                <div className="relative">
-                    <RxDotsVertical
-                        className={clsx(
-                            "cursor-pointer lg:hover:text-white lg:duration-200 lg:hover:scale-110",
-                            areOptionsOpen && "text-white scale-110"
-                        )}
-                        onClick={handleOptions}
-                    />
-                    <ul
-                        className={clsx(
-                            "options-list visible duration-300 opacity-1 ",
-                            !areOptionsOpen && "invisible opacity-0 "
-                        )}
-                    >
-                        <li
-                            className="rounded-t-lg options-item text-red-400"
-                            onClick={handleDeleteProjects}
-                        >
-                            Delete
-                        </li>
-                        <li
-                            className="options-item"
-                            onClick={() => {
-                                openModal();
-                            }}
-                        >
-                            Edit
-                        </li>
-                        <li className="options-item" onClick={handleOptions}>
-                            Cancel
-                        </li>
-                        {isSpinnerLoading && <SpinnerLoader />}
-                    </ul>
-                </div>
+                <OptionsDropdown
+                    onDelete={handleDeleteProjects}
+                    onEdit={openModal}
+                />
             </div>
             <div className="border-b border-darkborder pb-6 dark:text-white text-black">
                 <Link

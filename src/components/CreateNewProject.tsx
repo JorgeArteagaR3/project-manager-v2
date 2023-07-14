@@ -6,10 +6,10 @@ import Input from "./UI/Input";
 import Button from "./UI/Button";
 import { Project } from "../types/project";
 import { createProject } from "../services/services";
-import SpinnerLoader from "./SpinnerLoader";
 import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { useModal } from "../hooks/useModal";
 import { NotificationContext } from "../context/NotificationContext";
+import { useSpinnerLoader } from "../hooks/useSpinnerLoader";
 
 const CreateNewProject = () => {
     const { closeModal, isModalOpen, openModal } = useModal();
@@ -17,7 +17,8 @@ const CreateNewProject = () => {
         name: "",
         description: "",
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const { SpinnerLoader, isSpinnerLoading, setIsSpinnerLoading } =
+        useSpinnerLoader();
     const { addProject } = useContext(ProjectsContext);
     const { setIsNotificationShowing, setNotification } =
         useContext(NotificationContext);
@@ -32,14 +33,14 @@ const CreateNewProject = () => {
         e.preventDefault();
         if (newProject.name.length <= 8) return;
 
-        setIsLoading(true);
+        setIsSpinnerLoading(true);
         const data = await createProject(newProject);
 
         setIsNotificationShowing(true);
         setNotification({ message: "Project created!", success: true });
         setNewProject({ name: "", description: "" });
         addProject(data.data);
-        setIsLoading(false);
+        setIsSpinnerLoading(false);
         closeModal();
     };
 
@@ -90,7 +91,7 @@ const CreateNewProject = () => {
                         </Button>
                     </div>
                 </form>
-                {isLoading && <SpinnerLoader />}
+                {isSpinnerLoading && <SpinnerLoader />}
             </CustomModal>
         </Card>
     );

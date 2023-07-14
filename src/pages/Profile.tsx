@@ -1,18 +1,10 @@
-import Input from "../components/UI/Input";
-import Button from "../components/UI/Button";
 import { useUser } from "../hooks/useUser";
-import { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import ChangeEmailForm from "../components/ChangeEmailForm";
 import ChangePasswordForm from "../components/ChangePasswordForm";
 
 export default function Profile() {
     const { user } = useUser();
-
-    const [newPassword, setNewPassword] = useState({
-        password: "",
-        newPassword: "",
-    });
 
     return (
         <>

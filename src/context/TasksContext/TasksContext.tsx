@@ -6,6 +6,8 @@ const initialValue: TaskContextInterface = {
     tasks: [],
     saveTasks: () => {},
     addTask: () => {},
+    removeTask: () => {},
+    updateTask: () => {},
 };
 
 const TasksContext = createContext<TaskContextInterface>(initialValue);
@@ -22,8 +24,18 @@ const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch({ type: "ADD_TASK", payload: [task] });
     };
 
+    const removeTask = (task: TaskInterface) => {
+        dispatch({ type: "REMOVE_TASK", payload: task });
+    };
+
+    const updateTask = (task: TaskInterface) => {
+        dispatch({ type: "UPDATE_TASKS", payload: task });
+    };
+
     return (
-        <TasksContext.Provider value={{ tasks, saveTasks, addTask }}>
+        <TasksContext.Provider
+            value={{ tasks, saveTasks, addTask, removeTask, updateTask }}
+        >
             {children}
         </TasksContext.Provider>
     );

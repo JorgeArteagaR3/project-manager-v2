@@ -3,7 +3,6 @@ import { Project } from "../types/project";
 import { deleteProject } from "../services/services";
 import { ProjectsContext } from "../context/ProjectsContext/ProjectsContext";
 import { NotificationContext } from "../context/NotificationContext";
-import { useSpinnerLoader } from "./useSpinnerLoader";
 
 export const useProject = ({ project }: { project: Project }) => {
     const { removeProject } = useContext(ProjectsContext);

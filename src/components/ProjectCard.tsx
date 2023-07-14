@@ -1,5 +1,4 @@
 import Card from "./UI/Card";
-import { RxDotsVertical } from "react-icons/rx";
 import { Project } from "../types/project";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -28,7 +27,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
     return (
         <Card className="relative">
-            <div className="flex justify-between items-center mb-2 border-b border-darkborder pb-2 mb-4">
+            <div className="flex justify-between items-center border-b border-darkborder pb-2 mb-4">
                 <div
                     className={clsx(
                         "bg-amber-400 rounded-full px-2 py-1 font-bold text-sm mb-2 text-secondary",

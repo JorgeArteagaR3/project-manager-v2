@@ -1,0 +1,18 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  data-name="Glyph Icon"
+  viewBox="7.210000038146973 4 49.58000183105469 56"
+  x="222.7122"
+  y="0"
+  height="58.571600000000004"
+  width="51.856786343710766"
+  class="icon-s-0"
+  data-fill-palette-color="accent"
+  id="s-0"
+>
+  <path
+    d="M49.13 20.84l-16-9.26V4L55.7 17.05ZM32 50.52L16 41.26V22.74l16-9.26 16 9.26V41.26ZM30.91 11.58l-16 9.26L8.3 17.05 30.91 4ZM13.77 22.74V41.26L7.21 45.05V19Zm1.1 20.42l16 9.26V60L8.3 47Zm18.22 9.26l16-9.26L55.7 47 33.09 60ZM50.23 41.26V22.74L56.79 19v26.1Z"
+    fill="#86efac"
+    data-fill-palette-color="accent"
+  ></path>
+</svg>

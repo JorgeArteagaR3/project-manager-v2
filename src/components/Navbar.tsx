@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { Logo } from "./UI/Logo";
 
 export default function Navbar() {
     const location = useLocation();
@@ -23,10 +24,11 @@ export default function Navbar() {
             <Link
                 to={"/"}
                 key={"tsks"}
-                className="hidden lg:block w-full font-bold text-4xl text-green-300 hover:text-white duration-200"
+                className="hidden w-full font-bold text-4xl text-green-300 hover:text-white duration-200 lg:flex items-center justify-center"
             >
-                Tsks.
+                <Logo />
             </Link>
+
             {navlinks.map(({ path, name, Icon }) => (
                 <Link
                     key={path}

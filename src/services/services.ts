@@ -1,11 +1,7 @@
 import Cookies from "js-cookie";
-import {
-    NewEmail,
-    NewPassword,
-    Project,
-    TaskInterface,
-    User,
-} from "../types/types";
+import { NewEmail, NewPassword, User } from "../types/types";
+import { Project } from "../types/project";
+import { TaskInterface } from "../types/task";
 
 const url = "https://todo-backend-mf0a.onrender.com/api";
 

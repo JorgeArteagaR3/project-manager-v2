@@ -86,9 +86,7 @@ const CreateNewProject = () => {
                     </div>
                     <div className="flex gap-4">
                         <Button type="submit">Create</Button>
-                        <Button className="bg-red-400" onClick={closeModal}>
-                            Cancel
-                        </Button>
+                        <Button onClick={closeModal}>Cancel</Button>
                     </div>
                 </form>
                 {isSpinnerLoading && <SpinnerLoader />}

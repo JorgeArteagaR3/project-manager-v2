@@ -96,9 +96,7 @@ const EditProject = ({
                 </div>
                 <div className="flex gap-4">
                     <Button type="submit">Save</Button>
-                    <Button className="bg-red-400" onClick={handleCloseModal}>
-                        Cancel
-                    </Button>
+                    <Button onClick={handleCloseModal}>Cancel</Button>
                 </div>
             </form>
             {isSpinnerLoading && <SpinnerLoader />}

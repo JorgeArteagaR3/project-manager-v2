@@ -61,7 +61,7 @@ export default function SignUp() {
                     }}
                     autoComplete="off"
                 >
-                    <h2 className="font-bold text-3xl mb-3">
+                    <h2 className="font-bold text-3xl mb-3 text-green-300">
                         Get your free account
                     </h2>
                     <p className="text-2xl mb-2">Welcome.</p>
@@ -98,7 +98,7 @@ export default function SignUp() {
                     </div>
                     <p className="mb-6 text-center ">
                         Already have an account?
-                        <Link to={"/signin"} className="text-lime-500">
+                        <Link to={"/signin"} className="text-green-300">
                             {" "}
                             Sign In
                         </Link>

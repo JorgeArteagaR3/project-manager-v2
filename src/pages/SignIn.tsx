@@ -64,7 +64,7 @@ const SignIn = () => {
                     }}
                     autoComplete="on"
                 >
-                    <h2 className="font-bold text-3xl mb-3">
+                    <h2 className="font-bold text-3xl mb-3 text-green-300">
                         Let's sign you in
                     </h2>
                     <p className="text-2xl mb-2">Welcome Back.</p>
@@ -97,7 +97,7 @@ const SignIn = () => {
                     </div>
                     <p className="mb-6 text-center">
                         Don't have an account?
-                        <Link to={"/signup"} className="text-lime-500">
+                        <Link to={"/signup"} className="text-green-300">
                             {" "}
                             Sign Up
                         </Link>

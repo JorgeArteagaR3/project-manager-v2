@@ -8,6 +8,8 @@ import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
 import { createUser } from "../services/services";
 import { NotificationContext } from "../context/NotificationContext";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 export default function SignUp() {
     const [user, setUser] = useState({ username: "", password: "", email: "" });
@@ -22,33 +24,42 @@ export default function SignUp() {
 
     const navigate = useNavigate();
 
-    const register = async () => {
+    const register = async (newuser: typeof user) => {
         try {
-            if (!user.username || !user.password || !user.email) return;
+            if (!newuser.username || !newuser.password || !newuser.email)
+                return;
 
             setIsLoading(true);
-            const res = await createUser(user);
+            const { token, message } = await createUser(newuser);
             setIsLoading(false);
-
-            if (!res.ok) {
-                throw new Error("Username or Email already taken");
-            }
-            const { token, message } = await res.json();
 
             setIsNotificationShowing(true);
             setNotification({ message, success: true });
             Cookies.set("user", token, { expires: 7 });
             setIsAuthenticated(true);
-
             navigate("/dashboard");
         } catch (e) {
             if (e instanceof Error) {
                 setNotification({ success: false, message: e.message });
                 setIsNotificationShowing(true);
+                setIsLoading(false);
             } else {
                 console.log("Unknown error:", e);
             }
         }
+    };
+
+    const handleGoogleSignUp = async (response: CredentialResponse) => {
+        const { credential, clientId } = response;
+        const { name, email }: { name: string; email: string } = jwtDecode(
+            credential!
+        );
+        console.log({ name }, { clientId });
+        await register({
+            email,
+            username: name,
+            password: clientId?.substring(0, 8)!,
+        });
     };
 
     return (
@@ -57,7 +68,7 @@ export default function SignUp() {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        register();
+                        register(user);
                     }}
                     autoComplete="off"
                 >
@@ -69,7 +80,6 @@ export default function SignUp() {
                     <div className="flex flex-col gap-2 mb-6">
                         <label htmlFor="username">Username</label>
                         <Input
-                            id="username"
                             type="text"
                             placeholder="User"
                             onChange={handleInputChange}
@@ -79,7 +89,6 @@ export default function SignUp() {
                     <div className="flex flex-col gap-2 mb-6">
                         <label htmlFor="email">Email</label>
                         <Input
-                            id="email"
                             type="email"
                             placeholder="Your@email.com"
                             onChange={handleInputChange}
@@ -89,7 +98,6 @@ export default function SignUp() {
                     <div className="flex flex-col gap-2 mb-10">
                         <label htmlFor="password">Password</label>
                         <Input
-                            id="password"
                             type="password"
                             name="password"
                             placeholder="Your password"
@@ -103,7 +111,20 @@ export default function SignUp() {
                             Sign In
                         </Link>
                     </p>
-                    <Button type="submit">Sign Up</Button>
+                    <Button type="submit" className="mb-4">
+                        Sign Up
+                    </Button>
+                    <div className="w-full flex justify-center">
+                        <GoogleLogin
+                            size={"large"}
+                            theme={"filled_black"}
+                            text={"signup_with"}
+                            onSuccess={handleGoogleSignUp}
+                            onError={() => {
+                                console.log("Login Failed");
+                            }}
+                        />
+                    </div>
                 </form>
                 {isLoading && (
                     <SpinnerLoader className="bg-[rgba(247,247,247,0.75)]" />

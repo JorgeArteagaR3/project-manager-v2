@@ -49,8 +49,8 @@ export default function PageHeader({
                         isShowing && "text-white"
                     )}
                 >
-                    Welcome,
-                    <span className="block first-letter:uppercase">
+                    <span>Welcome, </span>
+                    <span className="first-letter:uppercase">
                         {user.username}
                     </span>
                 </p>
@@ -89,7 +89,7 @@ export default function PageHeader({
                 </div>
             </div>
             {showSearcher && (
-                <div className="w-full relative">
+                <div className="w-full md:w-6/12 relative">
                     <input
                         type="text"
                         placeholder="Search"

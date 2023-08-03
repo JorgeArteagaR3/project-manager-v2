@@ -72,7 +72,6 @@ export default function EditTask({
                     </label>
                     <Input
                         type="text"
-                        id="title"
                         placeholder="Task title"
                         name="title"
                         value={newTask.title}
@@ -85,7 +84,6 @@ export default function EditTask({
                     </label>
                     <Input
                         type="text"
-                        id="description"
                         value={newTask.description}
                         placeholder="Task description"
                         name="description"

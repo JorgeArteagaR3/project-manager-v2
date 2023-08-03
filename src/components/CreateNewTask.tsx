@@ -60,7 +60,6 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
                     </label>
                     <Input
                         type="text"
-                        id="title"
                         placeholder="Task title"
                         name="title"
                         onChange={handleInputChange}
@@ -72,7 +71,6 @@ export const CreateNewTask = ({ isModalOpen, closeModal }: ModalInterface) => {
                     </label>
                     <Input
                         type="text"
-                        id="description"
                         placeholder="Task description"
                         name="description"
                         className="h-16"

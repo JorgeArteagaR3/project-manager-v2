@@ -70,7 +70,6 @@ export default function ChangePasswordForm() {
                 <label htmlFor="old">Old password: </label>
                 <Input
                     type="text"
-                    id="old"
                     className="w-full"
                     autoComplete="off"
                     name="password"
@@ -82,7 +81,6 @@ export default function ChangePasswordForm() {
                 <label htmlFor="new">New Password: </label>
                 <Input
                     type="password"
-                    id="new"
                     className="w-full"
                     autoComplete="off"
                     name="newpassword"

@@ -15,6 +15,7 @@ export const projectsReducer = (
     action: ProjectAction
 ) => {
     const { type, payload } = action;
+
     switch (type) {
         case "GET_PROJECT": {
             return { projects: [...payload] };

@@ -67,7 +67,6 @@ export default function ChangeEmailForm() {
                 <label htmlFor="old">Your password: </label>
                 <Input
                     type="password"
-                    id="old"
                     className="w-full"
                     autoComplete="off"
                     name="password"
@@ -80,7 +79,6 @@ export default function ChangeEmailForm() {
                 <label htmlFor="new">New Email: </label>
                 <Input
                     type="email"
-                    id="new"
                     className="w-full"
                     autoComplete="off"
                     name="email"

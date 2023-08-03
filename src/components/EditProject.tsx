@@ -73,7 +73,6 @@ const EditProject = ({
                     </label>
                     <Input
                         type="text"
-                        id="name"
                         placeholder="Project name"
                         name="name"
                         value={newProject.name}
@@ -86,7 +85,6 @@ const EditProject = ({
                     </label>
                     <Input
                         type="text"
-                        id="description"
                         placeholder="Project description"
                         name="description"
                         value={newProject.description}

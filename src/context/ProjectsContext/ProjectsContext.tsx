@@ -17,7 +17,6 @@ const ProjectsProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(projectsReducer, { projects: [] });
 
     const { projects } = state;
-
     const setFetchedProjects = (projects: Project[]) => {
         dispatch({
             type: "GET_PROJECT",

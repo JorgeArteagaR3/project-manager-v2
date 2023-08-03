@@ -65,7 +65,6 @@ const CreateNewProject = () => {
                         </label>
                         <Input
                             type="text"
-                            id="name"
                             placeholder="Project name"
                             name="name"
                             onChange={handleInputChange}
@@ -77,7 +76,6 @@ const CreateNewProject = () => {
                         </label>
                         <Input
                             type="text"
-                            id="description"
                             placeholder="Project description"
                             name="description"
                             className="h-16"

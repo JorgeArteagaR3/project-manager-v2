@@ -186,7 +186,13 @@ export const userLogin = async (data: {
             "Content-Type": "application/json",
         },
     });
-    return res;
+
+    if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(message);
+    }
+
+    return res.json();
 };
 
 export const createUser = async (newuser: {
@@ -203,6 +209,9 @@ export const createUser = async (newuser: {
             "Content-Type": "application/json",
         },
     });
+    if (!res.ok) {
+        throw new Error("Username or email already exists");
+    }
 
-    return res;
+    return res.json();
 };

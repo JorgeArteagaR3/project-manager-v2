@@ -8,6 +8,8 @@ import Button from "../components/UI/Button";
 import { AuthContext } from "../context/AuthContext";
 import { NotificationContext } from "../context/NotificationContext";
 import { userLogin } from "../services/services";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 const SignIn = () => {
     const [userInput, setUserInput] = useState({ username: "", password: "" });
@@ -20,21 +22,16 @@ const SignIn = () => {
     };
 
     const navigate = useNavigate();
+    const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+    ).matches;
 
-    const login = async () => {
+    const login = async (user: typeof userInput) => {
         try {
-            if (userInput.username && userInput.password) {
+            if (user.username && user.password) {
                 setIsLoading(true);
-
-                const res = await userLogin(userInput);
-
+                const { message, token } = await userLogin(user);
                 setIsLoading(false);
-
-                if (!res.ok) {
-                    const { message } = await res.json();
-                    throw new Error(message);
-                }
-                const { message, token } = await res.json();
 
                 setNotification({ success: true, message });
                 setIsNotificationShowing(true);
@@ -48,19 +45,24 @@ const SignIn = () => {
             if (e instanceof Error) {
                 setNotification({ success: false, message: e.message });
                 setIsNotificationShowing(true);
+                setIsLoading(false);
             } else {
                 console.log("Unknown error:", e);
             }
         }
     };
-
+    const googleSignIn = async (response: CredentialResponse) => {
+        const { credential, clientId } = response;
+        const { name }: { name: string } = jwtDecode(credential!);
+        await login({ username: name, password: clientId!.substring(0, 8) });
+    };
     return (
         <div className="min-h-screen">
             <Container className="px-8 py-10 bg-transparent max-w-[550px] relative">
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        login();
+                        login(userInput);
                     }}
                     autoComplete="on"
                 >
@@ -72,19 +74,16 @@ const SignIn = () => {
                     <div className="flex flex-col gap-2 mb-6">
                         <label htmlFor="username ">Username</label>
                         <Input
-                            id="username"
                             placeholder="User"
                             type="text"
                             name="username"
                             value={userInput.username}
                             onChange={handleInputChange}
-                            key={"signinusername"}
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-10">
                         <label htmlFor="password">Password</label>
                         <Input
-                            id="password"
                             placeholder="Your password"
                             aria-current
                             type="password"
@@ -92,7 +91,6 @@ const SignIn = () => {
                             value={userInput.password}
                             onChange={handleInputChange}
                             autoComplete="on"
-                            key={"signinpassword"}
                         />
                     </div>
                     <p className="mb-6 text-center">
@@ -102,7 +100,20 @@ const SignIn = () => {
                             Sign Up
                         </Link>
                     </p>
-                    <Button type="submit">Sign In</Button>
+                    <Button type="submit" className="mb-4">
+                        Sign In
+                    </Button>
+                    <div className="w-full flex justify-center">
+                        <GoogleLogin
+                            size={"large"}
+                            theme={isDarkMode ? "filled_black" : "outline"}
+                            text={"signin_with"}
+                            onSuccess={googleSignIn}
+                            onError={() => {
+                                console.log("Login Failed");
+                            }}
+                        />
+                    </div>
                 </form>
                 {isLoading && (
                     <SpinnerLoader className="bg-[rgba(247,247,247,0.75)]" />
